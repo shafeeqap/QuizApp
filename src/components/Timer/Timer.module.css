@@ -1,0 +1,39 @@
+.timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: .5rem;
+    width: 8rem;
+    border-radius: 5px;
+    /* background-color: rgb(233, 230, 230); */
+    border: 2px solid var(--clr-grey-special);
+    box-shadow: var(--light-shadow);
+}
+
+.timer-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-items p {
+    margin-bottom: 0;
+    color: rgb(158, 38, 38);
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+    .timer-container{
+        width: 9rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .timer-container {
+        width: 9rem;
+        gap: .5rem;
+    }
+}

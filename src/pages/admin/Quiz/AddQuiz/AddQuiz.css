@@ -1,0 +1,95 @@
+.input-container {
+    width: 100%;
+    padding: 5px;
+    /* background-color: red; */
+}
+
+.input-container input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: solid 1px;
+    font-size: 15px;
+}
+
+.add-quiz-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    /* background-color: #007bff; */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.select-option {
+    width: 100%;
+    padding: .2rem;
+    margin-bottom: 1rem;
+}
+
+.start-at,
+.end-at {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+
+input[type="time"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.react-time-picker {
+    /* border: 2px solid #ff5722 !important; */
+    /* border-radius: 10px !important; */
+    width: 100%;
+}
+
+.react-time-picker__wrapper {
+    /* background-color: #fff3e0 !important; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.react-time-picker__clock {
+    /* background-color: #ffee58 !important; */
+    z-index: 1000;
+}
+
+.react-time-picker__inputGroup {
+    padding: 0.5rem;
+    /* border: 1px solid #ccc; */
+    border-radius: 4px;
+}
+
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+    .react-time-picker {
+        width: 100%;
+    }
+    .select-option {
+        width: 100%;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .react-time-picker {
+        width: 30%;
+    }
+
+    .select-option {
+        width: 30%;
+    }
+}

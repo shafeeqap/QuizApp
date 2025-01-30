@@ -1,0 +1,30 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 85vw;
+    /* height: 40; */
+    background: var(--clr-white);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    max-width: var(--fixed-width);
+}
+
+
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+    .admin-container {
+        width: 45vw;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .admin-container {
+        width: 20vw;
+        /* height: 70px; */
+    }
+    
+
+}

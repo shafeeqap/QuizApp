@@ -1,0 +1,51 @@
+.show-user-container {
+  width: 80vw;
+  margin: 10rem auto;
+    background: var(--clr-white);
+  border-radius: var(--radius);
+  padding: 2rem 2rem;
+  max-width: var(--fixed-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem 2rem;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: min-content
+}
+
+
+
+tr:nth-child(even) {
+  background-color: #d4d0d0
+}
+
+th,
+td {
+  padding: 0.2rem;
+  text-align: left;
+}
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+  table{
+    width: 70vw;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  table {
+    width: 59vw;
+  }
+
+  th,
+  td {
+    padding: 2px;
+    text-align: left;
+  }
+}

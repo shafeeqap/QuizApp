@@ -1,0 +1,41 @@
+.user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 85vw;
+    /* height: 40; */
+    background: var(--clr-white);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    max-width: var(--fixed-width);
+}
+
+.form {
+    height: 30vh;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+    .user-container {
+        width: 45vw;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .user-container {
+        width: 25vw;
+        /* height: 50vh; */
+    }
+
+    .form {
+        height: 50%;
+    }
+
+}

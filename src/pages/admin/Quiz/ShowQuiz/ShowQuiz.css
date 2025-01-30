@@ -1,0 +1,76 @@
+.add-btn button {
+    margin-bottom: 8px
+}
+
+.btn-container {
+    /* background-color: red; */
+    display: flex;
+    gap: .5rem;
+    width: 100%;
+}
+
+.btn-container p {
+    margin-bottom: 0;
+}
+
+.option {
+    background-color: rgb(228, 227, 227);
+    padding-left: 15px;
+    border-radius: 5px;
+}
+
+.option li {
+    color: rgb(226, 5, 5);
+    padding: 5px;
+    margin: 5px;
+}
+
+.quiz-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+    margin-bottom: 0.5rem;
+    /* background-color: rgb(228, 227, 227); */
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: var(--light-shadow);
+    border: 2px solid var(--clr-grey-special);
+}
+
+.quiz-type p{
+    font-weight: bold;
+}
+
+.quiz-type span{
+    font-weight: normal;
+}
+.edit-delete-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+
+.start-end-time {
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--light-shadow);
+    border: 2px solid var(--clr-grey-special);
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-bottom: 3rem;
+}
+
+.start-end-time p{
+    font-weight: bold;
+}
+
+.start-end-time span{
+    font-weight: normal;
+}
+
+  /* Tablet */
+  @media (min-width: 577px) and (max-width: 768px){}
+  /* Desktop */
+  @media (min-width: 769px){}

@@ -1,0 +1,14 @@
+.options{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem;
+    gap: .5rem;
+  }
+  .options input{
+    cursor: pointer;
+  }
+
+  .options label{
+    /* cursor: pointer; */
+  }
