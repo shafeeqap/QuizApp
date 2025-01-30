@@ -14,7 +14,7 @@ const Home = () => {
   const [regularQuizStarted, setRegularQuizStarted] = useState(false);
   const [dailyQuizStarted, setDailyQuizStarted] = useState(false);
 
-  // console.log(isDailyQuiz);
+  console.log(isDailyQuiz);
 
   const navigate = useNavigate();
 

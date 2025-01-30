@@ -4,15 +4,17 @@ import { db } from "../../../../utils/config/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { addQuizValidateForm } from "../../../../utils/validation/addQuizValidation";
 import { toast } from "react-toastify";
-import UserContext from "../../../../context/userContext";
 import Loading from "../../../../components/Loading/Loading";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Button from "../../../../components/Button/Button";
 import TimePicker from "react-time-picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import moment from "moment";
-
+import { mergeDateAndTime } from "../mergeDateAndTime";
+import QuizzesContext from "../../../../context/quizzesContext";
 
 const AddQuiz = () => {
   const [quiz, setQuiz] = useState({
@@ -22,17 +24,27 @@ const AddQuiz = () => {
     option3: "",
     answer: "",
     isDailyQuiz: false,
+    date: "",
     startTime: "",
     endTime: "",
   });
 
   const { isLoading, setIsLoading, fetchAndSetQuizzes } =
-    useContext(UserContext);
+    useContext(QuizzesContext);
 
   const [errors, setErrors] = useState({});
-
   const [isDailyQuestion, setIsDailyQuestion] = useState(false);
   const [quizType, setQuizType] = useState("regular");
+
+  // const date = new Date("2025-01-30");
+  // const startTime = "20:00";
+  // const endTime = "20:30";
+
+  // const startTimestamp = mergeDateAndTime(date, startTime);
+  // const endTimestamp = mergeDateAndTime(date, endTime);
+
+  // console.log("Start Time:", startTimestamp);
+  // console.log("End Time:", endTimestamp);
 
   const handleSelectChange = (e) => {
     const isDaily = e.target.value === "daily";
@@ -43,6 +55,7 @@ const AddQuiz = () => {
     setQuiz((prevQuiz) => ({
       ...prevQuiz,
       isDailyQuiz: isDaily,
+      date: isDaily ? prevQuiz.date : "",
       startTime: isDaily ? prevQuiz.startTime : "",
       endTime: isDaily ? prevQuiz.endTime : "",
     }));
@@ -73,10 +86,12 @@ const AddQuiz = () => {
         options: [quiz.option1, quiz.option2, quiz.option3],
         answer: quiz.answer,
         isDailyQuiz: quiz.isDailyQuiz,
-        startTime: quiz.isDailyQuiz ? quiz.startTime : null,
-        endTime: quiz.isDailyQuiz ? quiz.endTime : null,
+        startTime: quiz.isDailyQuiz ? mergeDateAndTime(quiz.date, quiz.startTime) : null,
+        endTime: quiz.isDailyQuiz ? mergeDateAndTime(quiz.date, quiz.endTime) : null,
         createdAt: serverTimestamp(),
       };
+
+      console.log(quizData, 'Quiz Data');
 
       const docRef = await addDoc(collection(db, "quizzes"), quizData);
       console.log("Quiz added with ID: ", docRef.id);
@@ -88,6 +103,7 @@ const AddQuiz = () => {
         option3: "",
         answer: "",
         isDailyQuiz: false,
+        date: "",
         startTime: "",
         endTime: "",
       });
@@ -105,8 +121,8 @@ const AddQuiz = () => {
       <div className="title">
         <h3>Add Quiz</h3>
       </div>
-      <div style={{ textAlign: "end", cursor: "pointer" }}>
-        <IoMdArrowRoundBack size={20} />{" "}
+      <div style={{ textAlign: "end" }}>
+        <IoMdArrowRoundBack size={20} cursor={"pointer"} />{" "}
       </div>
 
       <section className="info">
@@ -132,6 +148,17 @@ const AddQuiz = () => {
 
             {isDailyQuestion && (
               <div>
+                <div className="quiz-date">
+                  <label htmlFor="quizDate">Quiz Date:</label>
+                  <DatePicker
+                    selected={quiz.date ? new Date(quiz.date) : null}
+                    onChange={(date) => setQuiz((prev) => ({ ...prev, date }))}
+                    dateFormat="yyyy-MM-dd"
+                    placeholderText="YYYY-MM-DD"
+                    className="custom-datepicker"
+                  />
+                  {errors.date && <span className="error">{errors.date}</span>}
+                </div>
                 <div className="start-at">
                   <label htmlFor="startTime">Start at:</label>
                   <TimePicker
@@ -139,10 +166,15 @@ const AddQuiz = () => {
                     minutePlaceholder="MM"
                     amPmPlaceholder="AM/PM"
                     name="startTime"
-                    value={quiz.startTime ? moment(quiz.startTime, "HH:mm").toDate() : null}
+                    value={
+                      quiz.startTime
+                        ? moment(quiz.startTime, "HH:mm").toDate()
+                        : null
+                    }
                     onChange={(value) =>
                       setQuiz((prevQuiz) => ({ ...prevQuiz, startTime: value }))
                     }
+                    className="custom-timepicker"
                   />
                   {errors.startTime && (
                     <span className="error">{errors.startTime}</span>
@@ -155,10 +187,15 @@ const AddQuiz = () => {
                     minutePlaceholder="MM"
                     amPmPlaceholder="AM/PM"
                     name="endTime"
-                    value={quiz.endTime ? moment(quiz.endTime, "HH:mm").toDate() : null}
+                    value={
+                      quiz.endTime
+                        ? moment(quiz.endTime, "HH:mm").toDate()
+                        : null
+                    }
                     onChange={(value) =>
                       setQuiz((prevQuiz) => ({ ...prevQuiz, endTime: value }))
                     }
+                    className="custom-timepicker"
                   />
                   {errors.endTime && (
                     <span className="error">{errors.endTime}</span>

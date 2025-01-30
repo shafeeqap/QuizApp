@@ -1,5 +1,6 @@
+import moment from "moment";
+
 export const editValidateForm = (quiz) => {
-  
   const errors = {};
 
   // Validate question
@@ -26,15 +27,29 @@ export const editValidateForm = (quiz) => {
   }
 
   // Start time and end time.
-  if (quiz.quizType==='daily') {
+  if (quiz.quizType === "daily") {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (!quiz.date || isNaN(new Date(quiz.date).getTime())) {
+      errors.date = "Date is required for daily quiz.";
+    } else if (new Date(quiz.date) < today) {
+      errors.date = "Date cannot be in the past.";
+    }
     if (!quiz.startTime) {
       errors.startTime = "Start time is required for daily quiz.";
     }
     if (!quiz.endTime) {
       errors.endTime = "End time is required for daily quiz.";
     }
-    if (quiz.startTime && quiz.endTime && quiz.endTime <= quiz.startTime) {
-      errors.time = "End time must be later than start time.";
+    if (quiz.startTime && quiz.endTime) {
+      const start = moment(quiz.startTime, "HH:mm");
+      const end = moment(quiz.endTime, "HH:mm");
+
+      if (!start.isValid() || !end.isValid()) {
+        errors.time = "Invalid time format.";
+      } else if (end.isSameOrBefore(start)) {
+        errors.time = "End time must be later than start time.";
+      }
     }
   }
 

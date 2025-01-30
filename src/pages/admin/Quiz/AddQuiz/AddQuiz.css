@@ -6,9 +6,9 @@
 
 .input-container input {
     width: 100%;
-    padding: 5px;
+    padding: 8px;
     border-radius: 5px;
-    border: solid 1px;
+    border: solid 1px var(--clr-purple);
     font-size: 15px;
 }
 
@@ -27,12 +27,18 @@
 
 .select-option {
     width: 100%;
-    padding: .2rem;
+    padding: .6rem;
     margin-bottom: 1rem;
+    border: 1px solid var(--clr-purple);
+    border-radius: 5px;
+}
+
+.quiz-date {
+    width: 100%;
 }
 
 .start-at,
-.end-at {
+.end-at,.quiz-date {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -40,37 +46,48 @@
     margin: 1rem 0;
 }
 
-
-input[type="time"] {
+.custom-datepicker {
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    /* max-width: 300px; */
+    /* min-width: 290px; */
+    border: 1px solid var(--clr-purple);
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
+
+
+/* Customize TimePicker */
 .react-time-picker {
-    /* border: 2px solid #ff5722 !important; */
-    /* border-radius: 10px !important; */
-    width: 100%;
+    border: 1px solid var(--clr-purple);
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .react-time-picker__wrapper {
-    /* background-color: #fff3e0 !important; */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    border: none !important;
+    box-shadow: none !important;
 
-.react-time-picker__clock {
-    /* background-color: #ffee58 !important; */
-    z-index: 1000;
 }
 
 .react-time-picker__inputGroup {
-    padding: 0.5rem;
-    /* border: 1px solid #ccc; */
-    border-radius: 4px;
+    font-size: 16px;
+    padding: 5px;
 }
+
+.react-time-picker__clock {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.react-time-picker__clock--open {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
 
 
 /* Tablet */
@@ -78,18 +95,32 @@ input[type="time"] {
     .react-time-picker {
         width: 100%;
     }
+
     .select-option {
-        width: 100%;
+        max-width: 250px;
+    }
+
+    .custom-timepicker {
+        max-width: 250px;
+        font-size: 14px;
+    }
+    .custom-datepicker{
+        width: 50%;
+        font-size: 14px;
     }
 }
 
 /* Desktop */
 @media (min-width: 769px) {
     .react-time-picker {
-        width: 30%;
+        width: 50%;
     }
 
     .select-option {
-        width: 30%;
+        width: 50%;
+    }
+
+    .custom-datepicker {
+        width: 290px;
     }
 }

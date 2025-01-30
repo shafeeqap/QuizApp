@@ -71,33 +71,33 @@ const useQuizLogic = (quizzes) => {
   };
 
   // Handle quiz submission
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
     
-    const {endTime}=quizzes[0]
-    const quizEndTime = convertTimeStringToDate(endTime)
-    const currentTime = new Date();
+  //   const {endTime}=quizzes[0]
+  //   const quizEndTime = convertTimeStringToDate(endTime)
+  //   const currentTime = new Date();
 
-    // Quiz end time pass to context
-    setQuizEndTime(quizEndTime.getTime())
+  //   // Quiz end time pass to context
+  //   setQuizEndTime(quizEndTime.getTime())
     
-    if(currentTime > quizEndTime){
-      alert("You cannot submit. The quiz time is over!");
-      return
-    }
+  //   if(currentTime > quizEndTime){
+  //     alert("You cannot submit. The quiz time is over!");
+  //     return
+  //   }
     
-    const { updatedQuizDetails, updatedScore, isLastQuestion } =
-      processCurrentQuestion();
+  //   const { updatedQuizDetails, updatedScore, isLastQuestion } =
+  //     processCurrentQuestion();
 
-    if (isLastQuestion) {
-      finalizeQuiz(user.uid, updatedScore, updatedQuizDetails);
-    } else {
-      updateQuizState(updatedScore, updatedQuizDetails);
-    }
+  //   if (isLastQuestion) {
+  //     finalizeQuiz(user.uid, updatedScore, updatedQuizDetails);
+  //   } else {
+  //     updateQuizState(updatedScore, updatedQuizDetails);
+  //   }
 
-    setShowSubmit(false);
-    setShowNext(true);
-    return quizEndTime.getTime()
-  };
+  //   setShowSubmit(false);
+  //   setShowNext(true);
+  //   return quizEndTime.getTime()
+  // };
   
 
   // Handle next question

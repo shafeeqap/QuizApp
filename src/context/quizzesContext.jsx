@@ -27,18 +27,19 @@ export const QuizzesProvider = ({ children }) => {
   // ----------------- Convert end time to count down //
   const convertEndTimeToCountdown = (endTime) => {
     if (!endTime) return 0;
+console.log(endTime, 'End Time convert time');
 
-    const quizEndTime = convertTimeStringToDate(endTime);
-    const quizEndTimeMs = quizEndTime.getTime();
+    // const quizEndTime = convertTimeStringToDate(endTime);
+    // const quizEndTimeMs = quizEndTime.getTime();
 
-    console.log(quizEndTimeMs, "Quiz End Time in Milliseconds");
+    // console.log(quizEndTimeMs, "Quiz End Time in Milliseconds");
 
     const now = Date.now();
 
     // Calculate remaining time in milliseconds
-    const countDownDuration = quizEndTimeMs - now;
+    // const countDownDuration = quizEndTimeMs - now;
 
-    return countDownDuration > 0 ? countDownDuration : 0;
+    // return countDownDuration > 0 ? countDownDuration : 0;
   };
 
   useEffect(() => {

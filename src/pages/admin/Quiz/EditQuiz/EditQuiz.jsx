@@ -13,29 +13,29 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import QuizzesContext from "../../../../context/quizzesContext";
 import moment from "moment";
-
-
+import DatePicker from "react-datepicker";
+import { mergeDateAndTime } from "../mergeDateAndTime";
 
 const EditQuiz = () => {
   const { isLoading, quizzes, setIsLoading, updateQuizInContext } =
-  useContext(QuizzesContext);
-  
+    useContext(QuizzesContext);
+
   const [searchParams] = useSearchParams();
   const quizId = searchParams.get("id");
   const matchedQuiz = quizzes?.find((quiz) => quiz.id === quizId);
-  
+
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState([]);
   const [answer, setAnswer] = useState("");
   const [errors, setErrors] = useState({});
   const [isDailyQuestion, setIsDailyQuestion] = useState(false);
   const [quizType, setQuizType] = useState("regular");
+  const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const navigate = useNavigate();
-  
-console.log(isDailyQuestion, 'isDailyQuestion');
 
+  console.log(isDailyQuestion, "isDailyQuestion");
 
   useEffect(() => {
     if (matchedQuiz) {
@@ -47,8 +47,8 @@ console.log(isDailyQuestion, 'isDailyQuestion');
 
       const type = matchedQuiz.isDailyQuiz ? "daily" : "regular";
 
-      console.log(type, 'type');
-      
+      console.log(type, "type");
+
       setQuizType(type);
       setIsDailyQuestion(matchedQuiz.isDailyQuiz);
     } else if (!isLoading) {
@@ -71,14 +71,13 @@ console.log(isDailyQuestion, 'isDailyQuestion');
       question,
       options,
       answer,
-      quizType:isDailyQuestion,
+      quizType: isDailyQuestion,
+      date: isDailyQuestion ? date : "",
       startTime: isDailyQuestion ? startTime : "",
       endTime: isDailyQuestion ? endTime : "",
     };
 
-
     const validationErrors = editValidateForm(quizToValidate);
-
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -94,7 +93,8 @@ console.log(isDailyQuestion, 'isDailyQuestion');
         answer !== matchedQuiz.answer ||
         isDailyQuestion !== matchedQuiz.isDailyQuiz ||
         (isDailyQuestion &&
-          (startTime !== matchedQuiz.startTime ||
+          (date !== matchedQuiz.date ||
+            startTime !== matchedQuiz.startTime ||
             endTime !== matchedQuiz.endTime));
 
       if (!hasChanges) {
@@ -111,18 +111,20 @@ console.log(isDailyQuestion, 'isDailyQuestion');
         options,
         answer,
         isDailyQuiz: isDailyQuestion,
-        startTime: isDailyQuestion ? startTime : "",
-        endTime: isDailyQuestion ? endTime : "",
+        startTime: isDailyQuestion ?  mergeDateAndTime(date, startTime) : "",
+        endTime: isDailyQuestion ? mergeDateAndTime(date, endTime) : "",
       };
 
-      const result = await updateQuiz(updatedQuiz);
-      if (result.success) {
-        updateQuizInContext(updatedQuiz);
-        toast.success("Quiz updated successfully");
-        navigate("/show-quizzes");
-      } else {
-        navigate("/edit-quiz");
-      }
+      console.log(updatedQuiz, 'Updated Quiz');
+      
+      // const result = await updateQuiz(updatedQuiz);
+      // if (result.success) {
+      //   updateQuizInContext(updatedQuiz);
+      //   toast.success("Quiz updated successfully");
+      //   navigate("/show-quizzes");
+      // } else {
+      //   navigate("/edit-quiz");
+      // }
     } catch (error) {
       console.error("Error updating quiz:", error);
     } finally {
@@ -202,8 +204,8 @@ console.log(isDailyQuestion, 'isDailyQuestion');
             </div>
             <div className="form-group">
               <label htmlFor="quizType">Choose Quiz Type:</label>
-              <select className="select"
-                
+              <select
+                className="select"
                 name="quizType"
                 id="quizType"
                 value={quizType}
@@ -215,13 +217,28 @@ console.log(isDailyQuestion, 'isDailyQuestion');
 
               {isDailyQuestion && (
                 <div>
+                  <div className="quiz-date">
+                    <label htmlFor="quizDate">Quiz Date:</label>
+                    <DatePicker
+                      selected={date ? new Date(date) : null}
+                      onChange={(selected) => setDate(selected)}
+                      dateFormat="yyyy-MM-dd"
+                      placeholderText="YYYY-MM-DD"
+                      className="custom-datepicker"
+                    />
+                    {errors.date && (
+                      <span className="error">{errors.date}</span>
+                    )}
+                  </div>
                   <div className="start-at">
                     <label htmlFor="startTime">Start at:</label>
                     <TimePicker
                       hourPlaceholder="HH"
                       minutePlaceholder="MM"
                       name="startTime"
-                      value={startTime ? moment(startTime, "HH:mm").toDate() : null}
+                      value={
+                        startTime ? moment(startTime, "HH:mm").toDate() : null
+                      }
                       onChange={(value) => setStartTime(value)}
                     />
                     {errors.startTime && (
