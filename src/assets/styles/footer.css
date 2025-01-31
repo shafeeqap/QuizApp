@@ -6,6 +6,11 @@
     align-items: center;
 }
 
+.footer-container h4{
+    font-size: small;
+    text-align: center;
+}
+
 h4{
     margin-bottom: 0;
 }

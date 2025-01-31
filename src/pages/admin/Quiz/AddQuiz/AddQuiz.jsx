@@ -36,16 +36,6 @@ const AddQuiz = () => {
   const [isDailyQuestion, setIsDailyQuestion] = useState(false);
   const [quizType, setQuizType] = useState("regular");
 
-  // const date = new Date("2025-01-30");
-  // const startTime = "20:00";
-  // const endTime = "20:30";
-
-  // const startTimestamp = mergeDateAndTime(date, startTime);
-  // const endTimestamp = mergeDateAndTime(date, endTime);
-
-  // console.log("Start Time:", startTimestamp);
-  // console.log("End Time:", endTimestamp);
-
   const handleSelectChange = (e) => {
     const isDaily = e.target.value === "daily";
     const selectedType = e.target.value;
@@ -90,8 +80,6 @@ const AddQuiz = () => {
         endTime: quiz.isDailyQuiz ? mergeDateAndTime(quiz.date, quiz.endTime) : null,
         createdAt: serverTimestamp(),
       };
-
-      console.log(quizData, 'Quiz Data');
 
       const docRef = await addDoc(collection(db, "quizzes"), quizData);
       console.log("Quiz added with ID: ", docRef.id);

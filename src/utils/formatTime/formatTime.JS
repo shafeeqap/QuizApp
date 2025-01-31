@@ -41,5 +41,5 @@ export const formatTime = (time) => {
   const formattedMinutes = minutes.toString().padStart(2, "0");
   const formatedMonths = month < 10 ? `0${month}` : month;
 
-  return `${formattedHours}:${formattedMinutes} ${period} - ${day} ${formatedMonths} ${year}`;
+  return `${formattedHours}:${formattedMinutes} ${period} - ${day}-${formatedMonths}-${year}`;
 };

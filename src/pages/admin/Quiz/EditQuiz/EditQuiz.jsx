@@ -12,9 +12,9 @@ import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import QuizzesContext from "../../../../context/quizzesContext";
-import moment from "moment";
 import DatePicker from "react-datepicker";
 import { mergeDateAndTime } from "../mergeDateAndTime";
+import { checkHasChanges } from "./hasChanges.utils";
 
 const EditQuiz = () => {
   const { isLoading, quizzes, setIsLoading, updateQuizInContext } =
@@ -35,22 +35,27 @@ const EditQuiz = () => {
   const [endTime, setEndTime] = useState("");
   const navigate = useNavigate();
 
-  console.log(isDailyQuestion, "isDailyQuestion");
-
   useEffect(() => {
     if (matchedQuiz) {
       setQuestion(matchedQuiz.question);
       setOptions(matchedQuiz.options);
       setAnswer(matchedQuiz.answer);
-      setStartTime(matchedQuiz.startTime);
-      setEndTime(matchedQuiz.endTime);
-
-      const type = matchedQuiz.isDailyQuiz ? "daily" : "regular";
-
-      console.log(type, "type");
-
-      setQuizType(type);
       setIsDailyQuestion(matchedQuiz.isDailyQuiz);
+      setQuizType(matchedQuiz.isDailyQuiz ? "daily" : "regular");
+
+      if (matchedQuiz.isDailyQuiz) {
+        if (matchedQuiz.startTime?.seconds) {
+          setDate(
+            new Date(matchedQuiz.startTime.seconds * 1000)
+              .toISOString()
+              .split("T")[0]
+          );
+          setStartTime(new Date(matchedQuiz.startTime.seconds * 1000));
+        }
+        if (matchedQuiz.endTime?.seconds) {
+          setEndTime(new Date(matchedQuiz.endTime.seconds * 1000));
+        }
+      }
     } else if (!isLoading) {
       console.error("No quiz matched the provided ID:", quizId);
       navigate("/show-quizzes");
@@ -71,7 +76,7 @@ const EditQuiz = () => {
       question,
       options,
       answer,
-      quizType: isDailyQuestion,
+      quizType: quizType,
       date: isDailyQuestion ? date : "",
       startTime: isDailyQuestion ? startTime : "",
       endTime: isDailyQuestion ? endTime : "",
@@ -87,15 +92,18 @@ const EditQuiz = () => {
 
     try {
       // Check if there are any changes
-      const hasChanges =
-        question !== matchedQuiz.question ||
-        JSON.stringify(options) !== JSON.stringify(matchedQuiz.options) ||
-        answer !== matchedQuiz.answer ||
-        isDailyQuestion !== matchedQuiz.isDailyQuiz ||
-        (isDailyQuestion &&
-          (date !== matchedQuiz.date ||
-            startTime !== matchedQuiz.startTime ||
-            endTime !== matchedQuiz.endTime));
+      const hasChanges = checkHasChanges(
+        {
+          question,
+          options,
+          answer,
+          isDailyQuestion,
+          date,
+          startTime,
+          endTime,
+        },
+        matchedQuiz
+      );
 
       if (!hasChanges) {
         toast.warning(
@@ -111,20 +119,18 @@ const EditQuiz = () => {
         options,
         answer,
         isDailyQuiz: isDailyQuestion,
-        startTime: isDailyQuestion ?  mergeDateAndTime(date, startTime) : "",
+        startTime: isDailyQuestion ? mergeDateAndTime(date, startTime) : "",
         endTime: isDailyQuestion ? mergeDateAndTime(date, endTime) : "",
       };
 
-      console.log(updatedQuiz, 'Updated Quiz');
-      
-      // const result = await updateQuiz(updatedQuiz);
-      // if (result.success) {
-      //   updateQuizInContext(updatedQuiz);
-      //   toast.success("Quiz updated successfully");
-      //   navigate("/show-quizzes");
-      // } else {
-      //   navigate("/edit-quiz");
-      // }
+      const result = await updateQuiz(updatedQuiz);
+      if (result.success) {
+        updateQuizInContext(updatedQuiz);
+        toast.success("Quiz updated successfully");
+        navigate("/show-quizzes");
+      } else {
+        navigate("/edit-quiz");
+      }
     } catch (error) {
       console.error("Error updating quiz:", error);
     } finally {
@@ -236,9 +242,7 @@ const EditQuiz = () => {
                       hourPlaceholder="HH"
                       minutePlaceholder="MM"
                       name="startTime"
-                      value={
-                        startTime ? moment(startTime, "HH:mm").toDate() : null
-                      }
+                      value={startTime ? startTime : null}
                       onChange={(value) => setStartTime(value)}
                     />
                     {errors.startTime && (
@@ -251,7 +255,7 @@ const EditQuiz = () => {
                       hourPlaceholder="HH"
                       minutePlaceholder="MM"
                       name="endTime"
-                      value={endTime ? moment(endTime, "HH:mm").toDate() : null}
+                      value={endTime ? endTime : null}
                       onChange={(value) => setEndTime(value)}
                     />
                     {errors.endTime && (

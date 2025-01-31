@@ -1,24 +1,31 @@
-import moment from "moment";
 import { Timestamp } from "firebase/firestore";
 
 // Function to merge date and time into a single timestamp
 export const mergeDateAndTime = (date, time) => {
-  console.log(date, time, "Merge function");
   if (!date || !time) return null;
 
-  const dateString = moment(date).format("YYYY-MM-DD");
-  const timeMoment = moment(time, "HH:mm", true);
+  const dateString = new Date(date).toLocaleDateString("en-CA");
 
-  if (!timeMoment.isValid()) {
+  let timeString;
+  if (typeof time === "string") {
+    timeString = time;
+  } else if (time instanceof Date) {
+    const hours = time.getHours().toString().padStart(2, "0");
+    const minutes = time.getMinutes().toString().padStart(2, "0");
+    timeString = `${hours}:${minutes}`;
+  } else {
     console.error("Invalid time format:", time);
     return null;
   }
 
-  const dateTimeString = `${dateString} ${timeMoment.format("HH:mm")}`;
-  const firebaseTimestamp = Timestamp.fromDate(
-    moment(dateTimeString, "YYYY-MM-DD HH:mm").toDate()
-  );
+  const dateTimeString = `${dateString}T${timeString}:00`;
+  const finalDate = new Date(dateTimeString);
 
-  console.log(firebaseTimestamp, "Merged date and time.");
+  if (isNaN(finalDate.getTime())) {
+    console.error("Invalid date/time:", dateTimeString);
+    return null;
+  }
+  const firebaseTimestamp = Timestamp.fromDate(finalDate);
+
   return firebaseTimestamp;
 };
