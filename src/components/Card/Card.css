@@ -17,8 +17,10 @@
   color: white;
 }
 
-.card-title h3{
-  margin-bottom: 0;
+.title-wraper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .image-wraper {
   margin-bottom: 5px;
@@ -50,5 +52,10 @@
     width: 100%;
     min-width: 250px;
     min-height: 30px;
+  }
+  .title-wraper{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }

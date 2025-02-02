@@ -1,12 +1,14 @@
 import { Timer } from "../Timer";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import QuizzesContext from "../../context/quizzesContext";
 import PropTypes from "prop-types";
 
-const QuizInfo = ({ totalQuestions, currentQuestionIndex, isCompleted, countDownTimer }) => {
-  // const { quizzes, currentQuestionIndex, isCompleted } =
-  //   useContext(QuizzesContext);
-
+const QuizInfo = ({
+  totalQuestions,
+  currentQuestionIndex,
+  isCompleted,
+  quizzes,
+}) => {
 
 
   return (
@@ -15,9 +17,8 @@ const QuizInfo = ({ totalQuestions, currentQuestionIndex, isCompleted, countDown
         <>
           <h3 className="quiz-question">
             Question {currentQuestionIndex + 1} / {totalQuestions}
-            {/* Set Timer starting and ending time */}
           </h3>
-          <Timer className="quiz-timer" countDownTimer={countDownTimer} />
+          {quizzes?.[0]?.isDailyQuiz && <Timer className="quiz-timer" />}
         </>
       ) : (
         <h3>Congratulations!🎉</h3>
@@ -31,5 +32,6 @@ QuizInfo.propTypes = {
   currentQuestionIndex: PropTypes.number,
   isCompleted: PropTypes.bool,
   countDownTimer: PropTypes.number,
+  quizzes: PropTypes.array,
 };
 export default QuizInfo;

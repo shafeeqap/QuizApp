@@ -1,21 +1,6 @@
 export const formatTime = (time) => {
   let hours, minutes, day, month, year;
 
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   if (typeof time === "string") {
     // Handle time string like "20:00"
     [hours, minutes] = time.split(":").map(Number);

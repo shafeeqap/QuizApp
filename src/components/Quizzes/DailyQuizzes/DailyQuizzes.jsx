@@ -10,20 +10,20 @@ import QuizControls from "../QuizControls";
 
 const DailyQuizzes = () => {
   const {
-    isDailyQuiz,
+    isDailyQuizzes,
     isCompleted,
     showNext,
     currentQuestionIndex,
     isLoading,
-    quizEndTime,
+    resetQuiz,
   } = useContext(QuizzesContext);
   const { handleOptionSelect, handleSubmit, handleNext, handleReload } =
-    useQuizLogic(isDailyQuiz);
+    useQuizLogic(isDailyQuizzes);
 
-// console.log(quizEndTime, 'quizEndTime.......................');
 
     useEffect(() => {
       handleReload();
+      resetQuiz()
     }, []);
   
 
@@ -45,25 +45,25 @@ const DailyQuizzes = () => {
   return (
     <div className="quizzes-container">
       <QuizInfo
-        totalQuestions={isDailyQuiz.length}
+        totalQuestions={isDailyQuizzes.length}
         currentQuestionIndex={currentQuestionIndex}
         isCompleted={isCompleted}
-        countDownTimer={quizEndTime}
+        quizzes={isDailyQuizzes}
       />
 
       {isCompleted ? (
         <QuizCompleted
-          totalQuestions={isDailyQuiz.length}
+          totalQuestions={isDailyQuizzes.length}
           handleReload={handleReload}
         />
       ) : (
         <>
           <section className="quiz-info">
-            {isDailyQuiz.length > 0 &&
-            isDailyQuiz[currentQuestionIndex]?.options ? (
+            {isDailyQuizzes.length > 0 &&
+            isDailyQuizzes[currentQuestionIndex]?.options ? (
               <Question
-                key={isDailyQuiz[currentQuestionIndex]?.id}
-                {...isDailyQuiz[currentQuestionIndex]}
+                key={isDailyQuizzes[currentQuestionIndex]?.id}
+                {...isDailyQuizzes[currentQuestionIndex]}
                 onSelectOption={handleOptionSelect}
                 showCorrectAnswer={showNext}
               />
@@ -73,7 +73,7 @@ const DailyQuizzes = () => {
           </section>
 
           <QuizControls
-            isLastQuestion={currentQuestionIndex === isDailyQuiz?.length - 1}
+            isLastQuestion={currentQuestionIndex === isDailyQuizzes?.length - 1}
             handleSubmit={handleSubmit}
             handleNext={handleNext}
           />

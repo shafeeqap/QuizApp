@@ -8,13 +8,12 @@ import QuizzesContext from "../../context/quizzesContext";
 import { checkQuizAvailability } from "../../utils/validation/checkQuizAvailability";
 import Button from "../../components/Button/Button";
 import Loading from "../../components/Loading/Loading";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const { isLoading, isDailyQuiz, setIsLoading } = useContext(QuizzesContext);
+  const { isLoading, isDailyQuizzes, setIsLoading, quizEndTime } = useContext(QuizzesContext);
   const [regularQuizStarted, setRegularQuizStarted] = useState(false);
   const [dailyQuizStarted, setDailyQuizStarted] = useState(false);
-
-  console.log(isDailyQuiz);
 
   const navigate = useNavigate();
 
@@ -40,17 +39,16 @@ const Home = () => {
 
   const handleStartDailyQuiz = () => {
     if (
-      !isDailyQuiz ||
-      !Array.isArray(isDailyQuiz) ||
-      isDailyQuiz.length === 0
+      !isDailyQuizzes ||
+      !Array.isArray(isDailyQuizzes) ||
+      isDailyQuizzes.length === 0
     ) {
-      alert("No quizzes available at the moment.");
+      toast.warning("No quizzes available at the moment.");
       return;
     }
 
-    const { isAvailable, message } = checkQuizAvailability(isDailyQuiz);
-
-    alert(message);
+    const { isAvailable, message } = checkQuizAvailability(isDailyQuizzes);
+    toast.warning(message);
 
     if (isAvailable) {
       setIsLoading(true);
@@ -86,11 +84,12 @@ const Home = () => {
             </Button>
           </Card>
 
-          {isDailyQuiz.length > 0 ? (
+          {isDailyQuizzes.length > 0 ? (
             <Card
               title={"Daily Quiz"}
               description={"A quick challeng to test your knowledge"}
               image={card_image}
+              isDailyQuiz={isDailyQuizzes}
             >
               <Button variant="secondary" onClick={handleStartDailyQuiz}>
                 {isLoading ? (

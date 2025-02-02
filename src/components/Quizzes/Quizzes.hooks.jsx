@@ -71,34 +71,30 @@ const useQuizLogic = (quizzes) => {
   };
 
   // Handle quiz submission
-  // const handleSubmit = () => {
-    
-  //   const {endTime}=quizzes[0]
-  //   const quizEndTime = convertTimeStringToDate(endTime)
-  //   const currentTime = new Date();
+  const handleSubmit = () => {
+    if (quizzes[0].isDailyQuiz == true) {
+      const { endTime } = quizzes[0];
 
-  //   // Quiz end time pass to context
-  //   setQuizEndTime(quizEndTime.getTime())
-    
-  //   if(currentTime > quizEndTime){
-  //     alert("You cannot submit. The quiz time is over!");
-  //     return
-  //   }
-    
-  //   const { updatedQuizDetails, updatedScore, isLastQuestion } =
-  //     processCurrentQuestion();
+      const currentTime = new Date();
 
-  //   if (isLastQuestion) {
-  //     finalizeQuiz(user.uid, updatedScore, updatedQuizDetails);
-  //   } else {
-  //     updateQuizState(updatedScore, updatedQuizDetails);
-  //   }
+      if (currentTime > endTime.seconds * 1000) {
+        alert("You cannot submit. The quiz time is over!");
+        return;
+      }
+    }
 
-  //   setShowSubmit(false);
-  //   setShowNext(true);
-  //   return quizEndTime.getTime()
-  // };
-  
+    const { updatedQuizDetails, updatedScore, isLastQuestion } =
+      processCurrentQuestion();
+
+    if (isLastQuestion) {
+      finalizeQuiz(user.uid, updatedScore, updatedQuizDetails);
+    } else {
+      updateQuizState(updatedScore, updatedQuizDetails);
+    }
+
+    setShowSubmit(false);
+    setShowNext(true);
+  };
 
   // Handle next question
   const handleNext = () => {
@@ -110,7 +106,6 @@ const useQuizLogic = (quizzes) => {
       setIsCompleted(true);
     }
   };
-
 
   // Handle quiz reload
   const handleReload = async () => {

@@ -1,24 +1,42 @@
 import PropTypes from "prop-types";
 import "./Card.css";
 import Timer from "../Timer/Timer";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import QuizzesContext from "../../context/quizzesContext";
+import { Watch } from "react-loader-spinner";
 
-const Card = ({ image, title, description, children }) => {
-  const { isDailyQuiz } = useContext(QuizzesContext);
+const Card = ({ image, title, description, children, isDailyQuiz }) => {
+  const { isDailyQuizzes } = useContext(QuizzesContext);
+  const [quizStartTime, setQuizStartTime] = useState(0);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (isDailyQuizzes?.length && isDailyQuizzes[0].startTime) {
+      const startTimestamp = isDailyQuizzes[0].startTime.seconds * 1000;
+      setQuizStartTime(startTimestamp);
+    }
+  }, [isDailyQuizzes]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const waiting = quizStartTime && now < quizStartTime;
+
   return (
     <div className="card-container">
       <div className="card-content">
         <div className="card-title">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <div className="title-wraper">
             <h3>{title}</h3>
-            {isDailyQuiz > 0 && <Timer />}
+            {isDailyQuiz && waiting ? (
+              <Watch height={30} color="white" />
+            ) : (
+              <>{isDailyQuiz && <Timer />}</>
+            )}
           </div>
           <p>{description}</p>
         </div>
@@ -32,10 +50,11 @@ const Card = ({ image, title, description, children }) => {
 };
 
 Card.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   image: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   children: PropTypes.node,
+  isDailyQuiz: PropTypes.array,
 };
 export default Card;

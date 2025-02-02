@@ -17,12 +17,12 @@ import { mergeDateAndTime } from "../mergeDateAndTime";
 import { checkHasChanges } from "./hasChanges.utils";
 
 const EditQuiz = () => {
-  const { isLoading, quizzes, setIsLoading, updateQuizInContext } =
+  const { isLoading, fetchedQuizzes, setIsLoading, updateQuizInContext } =
     useContext(QuizzesContext);
 
   const [searchParams] = useSearchParams();
   const quizId = searchParams.get("id");
-  const matchedQuiz = quizzes?.find((quiz) => quiz.id === quizId);
+  const matchedQuiz = fetchedQuizzes?.find((quiz) => quiz.id === quizId);
 
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState([]);
@@ -44,16 +44,16 @@ const EditQuiz = () => {
       setQuizType(matchedQuiz.isDailyQuiz ? "daily" : "regular");
 
       if (matchedQuiz.isDailyQuiz) {
-        if (matchedQuiz.startTime?.seconds) {
+        if (matchedQuiz?.startTime?.seconds) {
           setDate(
-            new Date(matchedQuiz.startTime.seconds * 1000)
+            new Date(matchedQuiz?.startTime.seconds * 1000)
               .toISOString()
               .split("T")[0]
           );
-          setStartTime(new Date(matchedQuiz.startTime.seconds * 1000));
+          setStartTime(new Date(matchedQuiz?.startTime.seconds * 1000));
         }
-        if (matchedQuiz.endTime?.seconds) {
-          setEndTime(new Date(matchedQuiz.endTime.seconds * 1000));
+        if (matchedQuiz?.endTime.seconds) {
+          setEndTime(new Date(matchedQuiz?.endTime.seconds * 1000));
         }
       }
     } else if (!isLoading) {
@@ -82,7 +82,9 @@ const EditQuiz = () => {
       endTime: isDailyQuestion ? endTime : "",
     };
 
+    console.log(quizToValidate);
     const validationErrors = editValidateForm(quizToValidate);
+console.log(validationErrors, 'Validation Error');
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -105,6 +107,8 @@ const EditQuiz = () => {
         matchedQuiz
       );
 
+      console.log(hasChanges, 'Has changes');
+      
       if (!hasChanges) {
         toast.warning(
           "Nothing updated; please make changes before submission."

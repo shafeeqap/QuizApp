@@ -23,23 +23,23 @@ const ShowQuiz = () => {
 
   const [deleteQuestion, setDeleteQuestion] = useState(false);
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
-  const { isLoading, quizzes, setQuizzes } = useContext(QuizzesContext);
+  const { isLoading, fetchedQuizzes, setFetchedQuizzes } = useContext(QuizzesContext);
   
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * recordsPerPage;
     const endIndex = currentPage * recordsPerPage;
-    setData(quizzes.slice(startIndex, endIndex));
-  }, [currentPage, quizzes]);
+    setData(fetchedQuizzes.slice(startIndex, endIndex));
+  }, [currentPage, fetchedQuizzes]);
 
-  const totalPages = Math.ceil(quizzes.length / recordsPerPage);
+  const totalPages = Math.ceil(fetchedQuizzes.length / recordsPerPage);
 
   const deleteQuiz = async () => {
     if (!quizIdToDelete) {
       return;
     }
     await deleteDoc(doc(db, "quizzes", quizIdToDelete));
-    setQuizzes(quizzes.filter((quiz) => quiz.id !== quizIdToDelete));
+    setFetchedQuizzes(fetchedQuizzes.filter((quiz) => quiz.id !== quizIdToDelete));
     toast.success("You successfully deleted.");
     setDeleteQuestion(false);
     setQuizIdToDelete(null);

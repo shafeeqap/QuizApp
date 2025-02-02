@@ -10,8 +10,9 @@ const QuizzesContext = createContext();
 
 export const QuizzesProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [quizzes, setQuizzes] = useState([]);
-  const [isDailyQuiz, setIsDailyQuiz] = useState([]);
+  const [isRegularQuizzes, setIsRegularQuizzes] = useState([]);
+  const [isDailyQuizzes, setIsDailyQuizzes] = useState([]);
+  const [fetchedQuizzes, setFetchedQuizzes] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [showSubmit, setShowSubmit] = useState(false);
@@ -24,52 +25,26 @@ export const QuizzesProvider = ({ children }) => {
   const [quizDetails, setQuizDetails] = useState([]);
   const [quizEndTime, setQuizEndTime] = useState(0);
 
-  // ----------------- Convert end time to count down //
-  const convertEndTimeToCountdown = (endTime) => {
-    if (!endTime) return 0;
-console.log(endTime, 'End Time convert time');
-
-    // const quizEndTime = convertTimeStringToDate(endTime);
-    // const quizEndTimeMs = quizEndTime.getTime();
-
-    // console.log(quizEndTimeMs, "Quiz End Time in Milliseconds");
-
-    const now = Date.now();
-
-    // Calculate remaining time in milliseconds
-    // const countDownDuration = quizEndTimeMs - now;
-
-    // return countDownDuration > 0 ? countDownDuration : 0;
-  };
-
   useEffect(() => {
-    if (isDailyQuiz?.length && isDailyQuiz[0].endTime) {
-      const { endTime } = isDailyQuiz[0];
-
-      const countDownDuration = convertEndTimeToCountdown(endTime);
-      setQuizEndTime(countDownDuration);
-
-      console.log(
-        new Date(countDownDuration + Date.now()).toLocaleString(),
-        "Local time"
-      );
-    } else {
-      console.log("No daily quiz data yet.");
-    }
-  }, [isDailyQuiz]);
+    fetchAndSetQuizzes();
+  }, []);
 
   // ----------------- Access quizzes from Firebase //
   const fetchAndSetQuizzes = async () => {
     setIsLoading(true);
     try {
       const fetchedQuizzes = await fetchQuizzes();
-      setQuizzes(fetchedQuizzes);
-
-      // Filter daily quizzes
+      setFetchedQuizzes(fetchedQuizzes);
       const dailyQuizzes = fetchedQuizzes.filter(
         (quiz) => quiz.isDailyQuiz === true
       );
-      setIsDailyQuiz(dailyQuizzes);
+      const regularQuizzes = fetchedQuizzes.filter(
+        (quiz) => quiz.isDailyQuiz !== true
+      );
+
+      // Update state
+      setIsDailyQuizzes(dailyQuizzes);
+      setIsRegularQuizzes(regularQuizzes);
 
       return fetchedQuizzes;
     } catch (error) {
@@ -79,9 +54,27 @@ console.log(endTime, 'End Time convert time');
     }
   };
 
+  // ----------------- Convert end time to count down //
+  const convertEndTimeToCountdown = (endTime) => {
+    if (!endTime) return 0;
+    const endTimeMilliseconds = endTime.seconds * 1000;
+    return endTimeMilliseconds;
+  };
+
+  useEffect(() => {
+    if (isDailyQuizzes?.length && isDailyQuizzes[0].endTime) {
+      const { endTime } = isDailyQuizzes[0];
+      const endTimeMilliseconds = convertEndTimeToCountdown(endTime);
+
+      setQuizEndTime(endTimeMilliseconds);
+    } else {
+      console.log("No daily quiz data yet.");
+    }
+  }, [isDailyQuizzes]);
+
   // ----------------- Update Quiz in state context //
   const updateQuizInContext = (updatedQuiz) => {
-    setQuizzes((prevQuizzes) =>
+    setFetchedQuizzes((prevQuizzes) =>
       prevQuizzes.map((quiz) =>
         quiz.id === updatedQuiz.id ? { ...quiz, ...updatedQuiz } : quiz
       )
@@ -126,9 +119,9 @@ console.log(endTime, 'End Time convert time');
   // ----------------- Reset the state and fetch fresh quizzes //
   const resetQuiz = async () => {
     try {
-      setQuizzes([]);
+      setFetchedQuizzes([]);
       const newQuizzes = await fetchAndSetQuizzes();
-      setQuizzes(newQuizzes);
+      setFetchedQuizzes(newQuizzes);
     } catch (error) {
       console.error("Error resetting quizzes:", error);
     }
@@ -172,17 +165,14 @@ console.log(endTime, 'End Time convert time');
 
   //-------------- useQuizzes hook helper functions End ------------//
 
-  useEffect(() => {
-    fetchAndSetQuizzes();
-  }, []);
-
   return (
     <QuizzesContext.Provider
       value={{
         isLoading,
-        quizzes,
+        isRegularQuizzes,
+        isDailyQuizzes,
+        fetchedQuizzes,
         score,
-        isDailyQuiz,
         showSubmit,
         isCompleted,
         showNext,
@@ -199,7 +189,8 @@ console.log(endTime, 'End Time convert time');
         setShowSubmit,
         setTimeTaken,
         setShowNext,
-        setQuizzes,
+        setIsRegularQuizzes,
+        setFetchedQuizzes,
         fetchAndSetQuizzes,
         updateQuizInContext,
         saveQuizResult,

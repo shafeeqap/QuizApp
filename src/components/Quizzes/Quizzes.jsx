@@ -10,18 +10,20 @@ import QuizzesContext from "../../context/quizzesContext";
 
 const Quizzes = () => {
   const {
-    quizzes,
+    isRegularQuizzes,
     isCompleted,
     showNext,
     currentQuestionIndex,
     isLoading,
+    resetQuiz
   } = useContext(QuizzesContext);
   const { handleOptionSelect, handleSubmit, handleNext, handleReload } =
-    useQuizLogic(quizzes);
+    useQuizLogic(isRegularQuizzes);
 
 
   useEffect(() => {
     handleReload();
+    resetQuiz()
   }, []);
 
   if (isLoading) {
@@ -39,26 +41,28 @@ const Quizzes = () => {
     );
   }
 
+
   return (
     <div className="quizzes-container">
       <QuizInfo
-        totalQuestions={quizzes.length}
+        totalQuestions={isRegularQuizzes.length}
         currentQuestionIndex={currentQuestionIndex}
         isCompleted={isCompleted}
+        quizzes={isRegularQuizzes}
       />
 
       {isCompleted ? (
         <QuizCompleted
-          totalQuestions={quizzes.length}
+          totalQuestions={isRegularQuizzes.length}
           handleReload={handleReload}
         />
       ) : (
         <>
           <section className="quiz-info">
-            {quizzes.length > 0 && quizzes[currentQuestionIndex]?.options ? (
+            {isRegularQuizzes.length > 0 && isRegularQuizzes[currentQuestionIndex]?.options ? (
               <Question
-                key={quizzes[currentQuestionIndex]?.id}
-                {...quizzes[currentQuestionIndex]}
+                key={isRegularQuizzes[currentQuestionIndex]?.id}
+                {...isRegularQuizzes[currentQuestionIndex]}
                 onSelectOption={handleOptionSelect}
                 showCorrectAnswer={showNext}
               />
@@ -68,7 +72,7 @@ const Quizzes = () => {
           </section>
 
           <QuizControls
-            isLastQuestion={currentQuestionIndex === quizzes?.length - 1}
+            isLastQuestion={currentQuestionIndex === isRegularQuizzes?.length - 1}
             handleSubmit={handleSubmit}
             handleNext={handleNext}
           />

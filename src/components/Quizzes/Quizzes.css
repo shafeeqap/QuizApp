@@ -18,8 +18,8 @@
   width: 100%;
 }
 
-.reload-container{
-  /* background-color: red; */
+.quiz-title span{
+  color: white;
 }
 .reload-container p{
   font-weight: bold;
@@ -37,17 +37,17 @@
 
 h3 {
   text-transform: none;
-
 }
 
 .quiz-title {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   margin-bottom: 1rem;
   width: 100%;
-  /* background-color: red; */
+}
+.quiz-title p{
+  color: white;
 }
 
 .quiz-comp-btn-container{
