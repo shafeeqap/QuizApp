@@ -25,7 +25,6 @@ const useQuizLogic = (quizzes) => {
     updateQuizState,
     currentQuestionIndex,
     setCurrentQuestionIndex,
-    setQuizEndTime,
   } = useContext(QuizzesContext);
 
   // Initialize answered questions

@@ -18,10 +18,6 @@ export const checkQuizAvailability = (quizzes) => {
   const quizEndTime = new Date(quiz.endTime.seconds * 1000);
   const now = new Date();
 
-  console.log("Quiz Start Time:", quizStartTime.toISOString());
-  console.log("Quiz End Time:", quizEndTime.toISOString());
-  console.log("Current Time:", now.toISOString());
-
   if (now < quizStartTime) {
     return {
       isAvailable: false,

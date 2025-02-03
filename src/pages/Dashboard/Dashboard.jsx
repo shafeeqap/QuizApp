@@ -1,12 +1,20 @@
 import GridLayout from "../../components/GridLayout/GridLayout";
-import "./Dashboad.css";
+import "./Dashboard.css";
+import { DashboardItems } from "./DashboardItems";
 
 const Dashboard = () => {
+  const { quizzesLength, members, countDailyQuiz, countRegularQuiz } =
+    DashboardItems();
 
   return (
     <>
       <div className="dashboard-container">
-        <GridLayout />
+        <GridLayout
+          quizzesLength={quizzesLength}
+          members={members}
+          countDailyQuiz={countDailyQuiz}
+          countRegularQuiz={countRegularQuiz}
+        />
       </div>
     </>
   );

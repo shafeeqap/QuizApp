@@ -1,6 +1,4 @@
 import { Timer } from "../Timer";
-import { useContext, useEffect, useState } from "react";
-import QuizzesContext from "../../context/quizzesContext";
 import PropTypes from "prop-types";
 
 const QuizInfo = ({

@@ -33,7 +33,10 @@ const Card = ({ image, title, description, children, isDailyQuiz }) => {
           <div className="title-wraper">
             <h3>{title}</h3>
             {isDailyQuiz && waiting ? (
+              <>
               <Watch height={30} color="white" />
+              <p>Waiting...</p>
+              </>
             ) : (
               <>{isDailyQuiz && <Timer />}</>
             )}

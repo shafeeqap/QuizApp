@@ -1,0 +1,15 @@
+.content-round {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 4; */
+    /* height: 5; */
+    max-width: 100%;
+    padding: 2rem;
+    background-color: var(--clr-purple); 
+    border-radius: 100%;
+    box-shadow: var(--light-shadow);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  

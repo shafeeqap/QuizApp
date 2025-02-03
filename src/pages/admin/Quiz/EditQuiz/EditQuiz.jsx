@@ -84,7 +84,6 @@ const EditQuiz = () => {
 
     console.log(quizToValidate);
     const validationErrors = editValidateForm(quizToValidate);
-console.log(validationErrors, 'Validation Error');
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

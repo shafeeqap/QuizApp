@@ -4,7 +4,6 @@ import { fetchQuizzes } from "../utils/helperQuizzes/fetchQuizzes";
 import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import { db } from "../utils/config/firebase";
 import { toast } from "react-toastify";
-import { convertTimeStringToDate } from "../utils/convertTime/convertTimeStringToDate";
 
 const QuizzesContext = createContext();
 
@@ -134,19 +133,15 @@ export const QuizzesProvider = ({ children }) => {
       (quizEndTime - quizStartTime) / 1000
     );
 
-    // console.log(quizStartTime, "quizStartTime");
-    // console.log(quizEndTime, "quizEndTime");
-    // console.log(calculatedTimeTaken, "calculatedTimeTaken");
-
     setTimeTaken(calculatedTimeTaken);
     setScore(updatedScore);
 
-    // saveQuizResult(
-    //   userId,
-    //   updatedScore,
-    //   calculatedTimeTaken,
-    //   updatedQuizDetails
-    // );
+    saveQuizResult(
+      userId,
+      updatedScore,
+      calculatedTimeTaken,
+      updatedQuizDetails
+    );
 
     console.log("Saving Quiz Result:", {
       userId: userId,
