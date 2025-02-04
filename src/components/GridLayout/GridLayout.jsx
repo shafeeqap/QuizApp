@@ -3,17 +3,13 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import useResizeObserver from "./useResizeObserver";
 import "./GridLayout.css";
-import { ImUsers } from "react-icons/im";
-import { MdOutlineScore, MdOutlineQuiz } from "react-icons/md";
-import { GiPodiumWinner } from "react-icons/gi";
 import GridItem from "./GridItem";
 import PropTypes from "prop-types";
-import { useContext } from "react";
-import QuizzesContext from "../../context/quizzesContext";
+import { GridItemData } from "./GridItemData";
 
-const GridLayout = ({ quizzesLength, members }) => {
-  const {isRegularQuizzes, isDailyQuizzes}=useContext(QuizzesContext)
+const GridLayout = () => {
   const [ref, size] = useResizeObserver();
+  const { item_data } = GridItemData();
 
   const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
   const cols = { lg: 12, md: 10, sm: 8, xs: 6, xxs: 4 };
@@ -54,50 +50,22 @@ const GridLayout = ({ quizzesLength, members }) => {
         rowHeight={100}
         width={size.width || 1200}
         onLayoutChange={onLayoutChange}
+        draggableCancel=".no-drag"
       >
-        <div key="1">
-          <GridItem
-            title="Number of users"
-            value={members}
-            subtext="Users"
-            Icon={ImUsers}
-            containerClass="grid-layout"
-            titleContainerClass="grid-title-container-1"
-            bgColor='#6495ED'
-            footerTitil_1={'RQU'}
-            footerTitil_2={'DQU'}
-          />
-        </div>
-
-        <div key="2">
-          <GridItem
-            title="Total Winners"
-            value={0}
-            subtext="Winners"
-            Icon={GiPodiumWinner}
-            containerClass="grid-layout"
-            titleContainerClass="grid-title-container-3"
-            bgColor="tomato"
-            footerTitil_1={'RQW'}
-            footerTitil_2={'DQW'}
-          />
-        </div>
-
-        <div key="3">
-          <GridItem
-            title="Quizzes"
-            value={quizzesLength}
-            subtext="Quizzes"
-            Icon={MdOutlineQuiz}
-            containerClass="grid-layout"
-            titleContainerClass="grid-title-container-4"
-            bgColor='#8e44ad'
-            footerTitil_1={'Regular Quizzes'}
-            footerTitil_2={'Daily Quizzez'}
-            countDailyQuiz={isDailyQuizzes.length}
-            countRegularQuiz={isRegularQuizzes.length}
-          />
-        </div>
+        {item_data.map((item) => (
+          <div key={item.key}>
+            <GridItem
+              title={item.title}
+              value={item.value}
+              subtext={item.subtext}
+              Icon={item.Icon}
+              containerClass="grid-layout"
+              titleContainerClass={item.titleContainerClass}
+              roundDivbgColor={item.roundDivbgColor}
+              footerItems={item.footerItems}
+            />
+          </div>
+        ))}
       </ResponsiveGridLayout>
     </div>
   );

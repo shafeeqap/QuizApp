@@ -15,7 +15,6 @@ import NoData from "../../../../components/NoDataFound/NoDataFound";
 import Tooltipp from "../../../../components/Tooltipp/Tooltipp";
 import QuizzesContext from "../../../../context/quizzesContext";
 
-
 const ShowQuiz = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,8 +22,8 @@ const ShowQuiz = () => {
 
   const [deleteQuestion, setDeleteQuestion] = useState(false);
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
-  const { isLoading, fetchedQuizzes, setFetchedQuizzes } = useContext(QuizzesContext);
-  
+  const { isLoading, fetchedQuizzes, setFetchedQuizzes } =
+    useContext(QuizzesContext);
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * recordsPerPage;
@@ -39,7 +38,9 @@ const ShowQuiz = () => {
       return;
     }
     await deleteDoc(doc(db, "quizzes", quizIdToDelete));
-    setFetchedQuizzes(fetchedQuizzes.filter((quiz) => quiz.id !== quizIdToDelete));
+    setFetchedQuizzes(
+      fetchedQuizzes.filter((quiz) => quiz.id !== quizIdToDelete)
+    );
     toast.success("You successfully deleted.");
     setDeleteQuestion(false);
     setQuizIdToDelete(null);
@@ -56,7 +57,7 @@ const ShowQuiz = () => {
   };
   if (isLoading) {
     return (
-      <div
+      <div className="loading-container"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -88,7 +89,7 @@ const ShowQuiz = () => {
             {data.map((quiz, index) => (
               <article key={quiz.id} className="question">
                 <div className="edit-delete-container">
-                  <Tooltipp text={'Delete Quiz'}>
+                  <Tooltipp text={"Delete Quiz"}>
                     <MdDelete
                       size={20}
                       style={{ cursor: "pointer" }}
@@ -114,14 +115,20 @@ const ShowQuiz = () => {
                         : "Regular Quiz"}
                     </span>
                   </p>
-                  <p>Added On: <span>{formatTime(quiz?.createdAt)}</span></p>
+                  <p>
+                    Added On: <span>{formatTime(quiz?.createdAt)}</span>
+                  </p>
+                </div>
+                {quiz.isDailyQuiz === true && (
+                  <div className="start-end-time">
+                    <p>
+                      Start Time: <span>{formatTime(quiz?.startTime)}</span>
+                    </p>
+                    <p>
+                      End Time: <span>{formatTime(quiz?.endTime)}</span>
+                    </p>
                   </div>
-                  {quiz.isDailyQuiz === true && (
-                    <div className="start-end-time">
-                      <p>Start Time: <span >{formatTime(quiz?.startTime)}</span></p>
-                      <p>End Time: <span>{formatTime(quiz?.endTime)}</span></p>
-                    </div>
-                  )}
+                )}
 
                 <p style={{ fontWeight: "bold" }}>
                   Question {index + 1 + (currentPage - 1) * recordsPerPage}:
@@ -137,16 +144,8 @@ const ShowQuiz = () => {
                     </div>
                   ))}
 
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <span style={{ color: "green" }}>
-                      Answer: {quiz.answer}
-                    </span>
+                  <div className="answer-wrapper">
+                    <span>Answer: {quiz.answer}</span>
                   </div>
                 </ul>
               </article>

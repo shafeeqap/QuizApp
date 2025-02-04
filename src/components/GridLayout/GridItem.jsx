@@ -1,5 +1,7 @@
+import React from "react";
 import PropTypes from "prop-types";
 import RoundDiv from "../RoundDiv/RoundDiv";
+import { useNavigate } from "react-router-dom";
 
 const GridItem = ({
   title,
@@ -8,12 +10,11 @@ const GridItem = ({
   Icon,
   containerClass,
   titleContainerClass,
-  bgColor,
-  countRegularQuiz,
-  countDailyQuiz,
-  footerTitil_1,
-  footerTitil_2,
+  roundDivbgColor,
+  footerItems,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={containerClass}>
       <div className={titleContainerClass}>
@@ -22,8 +23,7 @@ const GridItem = ({
 
       <div className="content-wrapper">
         <div className="dashboard-content">
-          {/* dynamic updation */}
-          <RoundDiv backgroundColor={bgColor}>
+          <RoundDiv backgroundColor={roundDivbgColor}>
             <h3>{value}</h3>
           </RoundDiv>
           <small>{subtext}</small>
@@ -35,19 +35,23 @@ const GridItem = ({
           width: "100%",
           height: "1px",
           backgroundColor: "#CCCCFF",
-          margin: "0, auto",
+          margin: "0 auto",
         }}
       ></div>
       <div className="card-footer">
-        <small style={{ color: "red", cursor: "pointer" }}>
-          {footerTitil_1}:{" "}
-          <span style={{ color: "black" }}>{countRegularQuiz}</span>
-        </small>
-        <span>|</span>
-        <small style={{ color: "indigo", cursor: "pointer" }}>
-          {footerTitil_2}:{" "}
-          <span style={{ color: "mediumvioletred" }}>{countDailyQuiz}</span>{" "}
-        </small>
+        {footerItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <small
+              className="no-drag"
+              style={{ color: item.textColor, cursor: "pointer" }}
+              onClick={() => navigate(item.route)}
+            >
+              {item.title}:{" "}
+              <span style={{ color: item.spanColor }}>{item.count}</span>
+            </small>
+            {index !== footerItems.length - 1 && <span>|</span>}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
@@ -59,6 +63,15 @@ GridItem.propTypes = {
   Icon: PropTypes.elementType.isRequired,
   containerClass: PropTypes.string.isRequired,
   titleContainerClass: PropTypes.string.isRequired,
-  bgColor: PropTypes.string,
+  roundDivbgColor: PropTypes.string,
+  footerItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      textColor: PropTypes.string.isRequired,
+      spanColor: PropTypes.string.isRequired,
+      route: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 export default GridItem;
