@@ -29,6 +29,7 @@
   text-align: center;
 
 }
+
 .grid-title-container-1{
   background-color: mediumorchid;
   border-radius: 5px;
@@ -55,6 +56,9 @@
   gap: 5px;
   width: 120px;
 }
+.dashboard-content small{
+  cursor: pointer;
+}
 .content-round{
   display: flex;
   justify-content: center;
@@ -80,4 +84,8 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+}
+
+.card-footer small{
+  cursor: pointer;
 }

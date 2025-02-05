@@ -57,11 +57,12 @@ const GridLayout = () => {
             <GridItem
               title={item.title}
               value={item.value}
+              roundDivbgColor={item.roundDivbgColor}
+              path={item.path}
               subtext={item.subtext}
               Icon={item.Icon}
               containerClass="grid-layout"
               titleContainerClass={item.titleContainerClass}
-              roundDivbgColor={item.roundDivbgColor}
               footerItems={item.footerItems}
             />
           </div>

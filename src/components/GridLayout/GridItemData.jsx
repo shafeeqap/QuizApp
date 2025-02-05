@@ -11,16 +11,17 @@ export const GridItemData = () => {
   const { fetchedQuizzes, isRegularQuizzes, isDailyQuizzes } =
     useContext(QuizzesContext);
   const quizzesLength = fetchedQuizzes.length;
-  const members = users.length;
+  
 
   const item_data = [
     {
       key: "1",
       title: "Number of users",
-      value: members,
       subtext: "Users",
       Icon: ImUsers,
+      value: users.length,
       roundDivbgColor: "#6495ED",
+      path: "/show-quizzes",
       footerTitil_1: "RQU",
       footerTitil_2: "DQU",
       countRegularQuiz: isRegularQuizzes.length,
@@ -46,10 +47,11 @@ export const GridItemData = () => {
     {
       key: "2",
       title: "Total Winners",
-      value: 30,
       subtext: "Winners",
       Icon: GiPodiumWinner,
+      value: 30,
       roundDivbgColor: "tomato",
+      path: "/show-quizzes",
       footerTitil_1: "RQW",
       footerTitil_2: "DQW",
       countRegularQuiz: isRegularQuizzes.length,
@@ -75,10 +77,11 @@ export const GridItemData = () => {
     {
       key: "3",
       title: "Quizzes",
-      value: quizzesLength,
       subtext: "Quizzes",
       Icon: MdOutlineQuiz,
+      value: quizzesLength,
       roundDivbgColor: "#8e44ad",
+      path: "/show-quizzes",
       footerTitil_1: "Regular Quizzes",
       footerTitil_2: "Daily Quizzes",
       countRegularQuiz: isRegularQuizzes.length,

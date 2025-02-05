@@ -68,7 +68,7 @@ console.log(users, 'users');
             <p>No users found</p>
           )}
         </article>
-        <Pagination />
+        {/* <Pagination /> */}
       </section>
     </div>
   );

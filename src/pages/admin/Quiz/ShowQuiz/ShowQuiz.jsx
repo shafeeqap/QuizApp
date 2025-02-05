@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdAddCircle, MdModeEdit, MdDelete } from "react-icons/md";
 import Pagination from "../../../../components/Pagination/Pagination";
@@ -15,23 +15,28 @@ import NoData from "../../../../components/NoDataFound/NoDataFound";
 import Tooltipp from "../../../../components/Tooltipp/Tooltipp";
 import QuizzesContext from "../../../../context/quizzesContext";
 
-const ShowQuiz = () => {
-  const [data, setData] = useState([]);
+const ShowQuiz = ({ quizTitile, quizzes, setQuizzes }) => {
+  const { isLoading, fetchedQuizzes, setFetchedQuizzes } =
+    useContext(QuizzesContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 1;
+
+  const itemsPerPage = 1;
+  const totalItems = fetchedQuizzes.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const [deleteQuestion, setDeleteQuestion] = useState(false);
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
-  const { isLoading, fetchedQuizzes, setFetchedQuizzes } =
-    useContext(QuizzesContext);
 
+  // Reset to first page when data changes
   useEffect(() => {
-    const startIndex = (currentPage - 1) * recordsPerPage;
-    const endIndex = currentPage * recordsPerPage;
-    setData(fetchedQuizzes.slice(startIndex, endIndex));
-  }, [currentPage, fetchedQuizzes]);
+    setCurrentPage(1);
+  }, [fetchedQuizzes]);
 
-  const totalPages = Math.ceil(fetchedQuizzes.length / recordsPerPage);
+  const currentData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return fetchedQuizzes.slice(startIndex, endIndex);
+  }, [currentPage, fetchedQuizzes, itemsPerPage]);
 
   const deleteQuiz = async () => {
     if (!quizIdToDelete) {
@@ -57,7 +62,8 @@ const ShowQuiz = () => {
   };
   if (isLoading) {
     return (
-      <div className="loading-container"
+      <div
+        className="loading-container"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -72,21 +78,20 @@ const ShowQuiz = () => {
 
   return (
     <div className="container">
-      <div className="btn-container">
-        <Tooltipp text={"Add Quiz"}>
-          <Link to="/add-quiz" className="add-btn">
-            <MdAddCircle size={25} />
-          </Link>
-        </Tooltipp>
-      </div>
-      {data.length > 0 ? (
+      {currentData.length > 0 ? (
         <>
           <div className="title">
             <h3>Quiz Details</h3>
           </div>
-
+          <div className="btn-container">
+            <Tooltipp text={"Add Quiz"}>
+              <Link to="/add-quiz" className="add-btn">
+                <MdAddCircle size={25} />
+              </Link>
+            </Tooltipp>
+          </div>
           <section className="info">
-            {data.map((quiz, index) => (
+            {currentData.map((quiz, index) => (
               <article key={quiz.id} className="question">
                 <div className="edit-delete-container">
                   <Tooltipp text={"Delete Quiz"}>
@@ -131,7 +136,7 @@ const ShowQuiz = () => {
                 )}
 
                 <p style={{ fontWeight: "bold" }}>
-                  Question {index + 1 + (currentPage - 1) * recordsPerPage}:
+                  Question {index + 1 + (currentPage - 1) * itemsPerPage}:
                   <span style={{ fontWeight: "normal" }}> {quiz.question}</span>
                 </p>
                 <ul>
@@ -152,8 +157,8 @@ const ShowQuiz = () => {
             ))}
           </section>
           <Pagination
-            currentPage={currentPage}
             totalPages={totalPages}
+            currentPage={currentPage}
             onPageChange={setCurrentPage}
           />
         </>

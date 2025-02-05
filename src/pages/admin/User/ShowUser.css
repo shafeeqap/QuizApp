@@ -1,21 +1,24 @@
 .show-user-container {
-  width: 80vw;
+  /* width: 80vw; */
   margin: 10rem auto;
-    background: var(--clr-white);
+  background: var(--clr-white);
   border-radius: var(--radius);
-  padding: 2rem 2rem;
+  padding: 2rem ;
   max-width: var(--fixed-width);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem 2rem;
-  overflow-x: auto;
+  /* gap: 1rem 2rem; */
+  overflow-x: scroll;
 }
 
 table {
   border-collapse: collapse;
-  width: min-content
+  width: min-content;
+}
+.table-container{
+  /* background-color: red; */
 }
 
 
@@ -32,7 +35,7 @@ td {
 
 /* Tablet */
 @media (min-width: 577px) and (max-width: 768px) {
-  table{
+  table {
     width: 70vw;
   }
 }

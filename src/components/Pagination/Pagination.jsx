@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
-import "./Pagination.css"
-
+import "./Pagination.css";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
@@ -24,28 +23,40 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div className="pagination">
-      <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-        Previous
+      <button
+        onClick={handlePreviousPage}
+        disabled={currentPage === 1}
+        aria-label="Previous page"
+      >
+        <GrPrevious />
       </button>
-      {[...Array(totalPages)].map((_, index) => (
-        <button
-          key={index + 1}
-          className={currentPage === index + 1 ? "active" : ""}
-          onClick={() => handlePageClick(index + 1)}
-        >
-          {index + 1}
-        </button>
-      ))}
-      <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-        Next
+      {[...Array(totalPages)].map((_, index) => {
+        const pageNumber = index + 1;
+        return (
+          <button
+            key={pageNumber}
+            aria-label={`Page ${pageNumber}`}
+            className={currentPage === pageNumber ? "active" : ""}
+            onClick={() => handlePageClick(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        );
+      })}
+      <button
+        aria-label="Next page"
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        <GrNext />
       </button>
     </div>
   );
 };
 
-Pagination.propTypes={
+Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-}
+};
 export default Pagination;

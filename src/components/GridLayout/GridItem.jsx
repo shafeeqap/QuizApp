@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 const GridItem = ({
   title,
   value,
+  roundDivbgColor,
   subtext,
   Icon,
   containerClass,
   titleContainerClass,
-  roundDivbgColor,
   footerItems,
 }) => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const GridItem = ({
           <React.Fragment key={index}>
             <small
               className="no-drag"
-              style={{ color: item.textColor, cursor: "pointer" }}
+              style={{ color: item.textColor }}
               onClick={() => navigate(item.route)}
             >
               {item.title}:{" "}
