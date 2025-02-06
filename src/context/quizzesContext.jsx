@@ -81,7 +81,7 @@ export const QuizzesProvider = ({ children }) => {
   };
 
   // ----------------- Save user quiz result to Firebase //
-  const saveQuizResult = async (userId, score, timeTaken, quizDetails) => {
+  const saveQuizResult = async (userId, score, timeTaken, quizDetails, quizType) => {
     console.log(userId, "userId");
 
     if (!userId) {
@@ -90,7 +90,8 @@ export const QuizzesProvider = ({ children }) => {
         userId,
         score,
         timeTaken,
-        quizDetails
+        quizDetails,
+        quizType
       );
       return;
     }
@@ -103,6 +104,7 @@ export const QuizzesProvider = ({ children }) => {
             score,
             timeTaken,
             quizDetails,
+            quizType,
             date: new Date().toISOString(),
           }),
         },
@@ -127,7 +129,7 @@ export const QuizzesProvider = ({ children }) => {
   };
 
   //-------------- useQuizzes hook helper functions Start ------------//
-  const finalizeQuiz = (userId, updatedScore, updatedQuizDetails) => {
+  const finalizeQuiz = (userId, updatedScore, updatedQuizDetails, quizType) => {
     const quizEndTime = new Date().getTime();
     const calculatedTimeTaken = Math.round(
       (quizEndTime - quizStartTime) / 1000
@@ -140,7 +142,8 @@ export const QuizzesProvider = ({ children }) => {
       userId,
       updatedScore,
       calculatedTimeTaken,
-      updatedQuizDetails
+      updatedQuizDetails,
+      quizType
     );
 
     console.log("Saving Quiz Result:", {

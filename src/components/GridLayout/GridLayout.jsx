@@ -36,7 +36,7 @@ const GridLayout = () => {
   };
 
   const onLayoutChange = (currentLayout, allLayouts) => {
-    console.log("Updated layouts: ", allLayouts);
+    // console.log("Updated layouts: ", allLayouts);
     localStorage.setItem("gridLayouts", JSON.stringify(allLayouts));
   };
 

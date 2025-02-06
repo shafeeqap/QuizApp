@@ -24,3 +24,12 @@ Dependencies
 12. react-time-picker
 13. react-toastify
 14. yup
+
+# If you face any problems during the programme run. 
+  You should remove 'node_modules' and 'package-lock.json', then reinstall. 
+
+$ Remove-Item -Recurse -Force node_modules
+$ Remove-Item -Force package-lock.json
+
+# you can reinstall your dependencies with: npm install
+# Run the Server with nodemon : npm run server

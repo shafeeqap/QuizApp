@@ -25,6 +25,7 @@ const Card = ({ image, title, description, children, isDailyQuiz }) => {
   }, []);
 
   const waiting = quizStartTime && now < quizStartTime;
+  
 
   return (
     <div className="card-container">

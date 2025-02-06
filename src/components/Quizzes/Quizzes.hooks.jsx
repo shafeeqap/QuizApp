@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import UserContext from "../../context/userContext";
 import QuizzesContext from "../../context/quizzesContext";
-import { convertTimeStringToDate } from "../../utils/convertTime/convertTimeStringToDate";
 
 const useQuizLogic = (quizzes) => {
   const { user } = useContext(UserContext);
+  console.log(quizzes, "Quizzes");
 
   const {
     score,
@@ -51,6 +51,7 @@ const useQuizLogic = (quizzes) => {
     const correctAnswer = quizzes[currentQuestionIndex]?.answer;
 
     const isCorrect = selectedOption === correctAnswer;
+    const quizType = quizzes.some((quiz) => quiz.isDailyQuiz === true) ? "DailyQuiz" : "RegularQuiz";
 
     const updatedQuizDetails = [
       ...(quizDetails || []),
@@ -66,7 +67,7 @@ const useQuizLogic = (quizzes) => {
     const updatedScore = isCorrect ? score + 1 : score;
     const isLastQuestion = currentQuestionIndex === quizzes.length - 1;
 
-    return { updatedQuizDetails, updatedScore, isLastQuestion };
+    return { updatedQuizDetails, updatedScore, isLastQuestion, quizType };
   };
 
   // Handle quiz submission
@@ -82,11 +83,12 @@ const useQuizLogic = (quizzes) => {
       }
     }
 
-    const { updatedQuizDetails, updatedScore, isLastQuestion } =
+    const { updatedQuizDetails, updatedScore, isLastQuestion, quizType } =
       processCurrentQuestion();
+    console.log(updatedQuizDetails, "Quiz Details");
 
     if (isLastQuestion) {
-      finalizeQuiz(user.uid, updatedScore, updatedQuizDetails);
+      finalizeQuiz(user.uid, updatedScore, updatedQuizDetails, quizType);
     } else {
       updateQuizState(updatedScore, updatedQuizDetails);
     }
