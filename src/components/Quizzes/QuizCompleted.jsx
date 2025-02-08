@@ -7,6 +7,7 @@ import { useContext } from "react";
 import QuizzesContext from "../../context/quizzesContext";
 import UserContext from "../../context/userContext";
 
+
 const QuizCompleted = ({ totalQuestions, handleReload }) => {
   const { score, timeTaken } = useContext(QuizzesContext);
   const { user } = useContext(UserContext);
@@ -14,7 +15,6 @@ const QuizCompleted = ({ totalQuestions, handleReload }) => {
   
   return (
     <div className="reload-container">
-      {/* <h4>All questions are completed!</h4> */}
       <div>
         <Confetti
           width={500}

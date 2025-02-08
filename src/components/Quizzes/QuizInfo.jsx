@@ -1,5 +1,9 @@
 import { Timer } from "../Timer";
 import PropTypes from "prop-types";
+import { IoMdDownload } from "react-icons/io";
+import Tooltipp from "../Tooltipp/Tooltipp";
+import { quizDetails } from "../../utils/helper/user/quizDetails";
+import downloadPdf from "../../utils/downloadPdf/downloadPdf";
 
 const QuizInfo = ({
   totalQuestions,
@@ -7,7 +11,12 @@ const QuizInfo = ({
   isCompleted,
   quizzes,
 }) => {
+  const usersWithQuizDetails = quizDetails();
 
+  const handleDownloadPdf = () => {
+    console.log("Downloading PDF...");
+    downloadPdf(usersWithQuizDetails);
+  };
 
   return (
     <div className="quiz-title">
@@ -19,7 +28,15 @@ const QuizInfo = ({
           {quizzes?.[0]?.isDailyQuiz && <Timer className="quiz-timer" />}
         </>
       ) : (
-        <h3>Congratulations!🎉</h3>
+        <div className="congratulation">
+          <h3>Congratulations!🎉</h3>
+          <Tooltipp text={"Download"}>
+            <IoMdDownload
+              style={{ cursor: "pointer" }}
+              onClick={handleDownloadPdf}
+            />
+          </Tooltipp>
+        </div>
       )}
     </div>
   );

@@ -4,7 +4,7 @@ import UserContext from "../../../context/userContext";
 import Loading from "../../../components/Loading/Loading";
 import Pagination from "../../../components/Pagination/Pagination";
 import SearchContext from "../../../context/searchContext";
-import { totalScore } from "../../../utils/helper/user/totalScore";
+import { quizDetails } from "../../../utils/helper/user/quizDetails";
 import Button from "../../../components/Button/Button";
 import { MdDeleteForever } from "react-icons/md";
 import { TbLockOff, TbLockOpen2 } from "react-icons/tb";
@@ -22,7 +22,7 @@ const ShowUser = () => {
 
   console.log(users, "Users");
 
-  const computedScores = totalScore(users);
+  const computedScores = quizDetails(users);
 
   // Merge the Computed Total Score with Original User Data //
   const usersWithTotalScore = users.map((user) => {

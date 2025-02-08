@@ -20,19 +20,29 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   .modal-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     background: transparent;
-    border: none;
+    border-radius: 100%;
     font-size: 1.5rem;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+  }
+
+  .modal-close:hover{
+    background-color: rgb(223, 222, 222);
   }
   .modal-title {
     margin: 0;
     font-size: 1.25rem;
   }
-  .modal-actions {
+  .modal-body {
     margin-top: 10px;
     /* max-width: 50%; */
+  }
+  .cls-btn-warpper{
+    display: flex;
+    justify-content: end;
+    align-items: center;
   }

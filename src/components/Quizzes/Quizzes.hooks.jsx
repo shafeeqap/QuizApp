@@ -4,7 +4,6 @@ import QuizzesContext from "../../context/quizzesContext";
 
 const useQuizLogic = (quizzes) => {
   const { user } = useContext(UserContext);
-  console.log(quizzes, "Quizzes");
 
   const {
     score,

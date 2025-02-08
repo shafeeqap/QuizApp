@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import UserContext from "../../../context/userContext";
 import Pagination from "../../../components/Pagination/Pagination";
 import "./ShowScore.css";
-import { totalScore } from "../../../utils/helper/user/totalScore";
+import { quizDetails } from "../../../utils/helper/user/quizDetails";
 
 const ShowScore = () => {
   const { users } = useContext(UserContext);
@@ -23,7 +23,7 @@ const ShowScore = () => {
     return users.slice(startIndex, endIndex);
   }, [currentPage, users, itemsPerPage]);
 
-  const usersWithTotalScore = totalScore(currentData);
+  const usersWithTotalScore = quizDetails(currentData);
 
   return (
     <div className="container">
