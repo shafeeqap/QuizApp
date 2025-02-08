@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import "./EditQuiz.css";
 import PropTypes from "prop-types";
 import Loading from "../../../../components/Loading/Loading";
-import { updateQuiz } from "../../../../utils/helperQuizzes/updateQuiz";
+import { updateQuiz } from "../../../../utils/helper/quizzes/updateQuiz";
 import { toast } from "react-toastify";
 import { editValidateForm } from "../../../../utils/validation/editQuizValidation";
 import { IoMdArrowRoundBack } from "react-icons/io";

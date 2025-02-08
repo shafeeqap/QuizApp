@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { fetchQuizzes } from "../utils/helperQuizzes/fetchQuizzes";
+import { fetchQuizzes } from "../utils/helper/quizzes/fetchQuizzes";
 import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import { db } from "../utils/config/firebase";
 import { toast } from "react-toastify";

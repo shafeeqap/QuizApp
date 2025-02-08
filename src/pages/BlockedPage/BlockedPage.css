@@ -1,0 +1,38 @@
+.container-block {
+    width: 80vw;
+    height: 80vh;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    background: var(--clr-white);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    max-width: var(--fixed-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: fixed;  */
+    transform: translateY(10%);
+}
+
+.image-container{
+    display: flex;
+    justify-content: center;
+}
+.image-container img{
+    width: 150px;
+}
+
+/* Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+    .image-container img{
+        width: 250px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .image-container img{
+        width: 250px;
+    }
+}

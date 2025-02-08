@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .env
+serviceAccountKey.json
+setAdmin.cjs
+.firebaserc
+firebase.json
+Note.txt

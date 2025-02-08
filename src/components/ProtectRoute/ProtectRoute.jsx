@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import Loading from "../Loading/Loading";
 
 const ProtectRoute = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(null);
@@ -33,7 +34,18 @@ const ProtectRoute = ({ children }) => {
   }, [auth, db]);
 
   if (isAuthorized === null) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Loading height={"80px"} width={"80px"} color={"#fff"} />
+      </div>
+    );
   }
 
   return isAuthorized ? children : <Navigate to="/login" replace />;

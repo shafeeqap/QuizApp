@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           &times;
         </button>
         {title && <h2 className="modal-title">{title}</h2>}
-        <div className="modal-body">{children}</div>
+        <div className="modal-actions">{children}</div>
       </div>
     </div>,
     document.getElementById("modal-root")

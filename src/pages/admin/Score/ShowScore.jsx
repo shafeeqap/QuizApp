@@ -2,10 +2,10 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import UserContext from "../../../context/userContext";
 import Pagination from "../../../components/Pagination/Pagination";
 import "./ShowScore.css";
+import { totalScore } from "../../../utils/helper/user/totalScore";
 
 const ShowScore = () => {
   const { users } = useContext(UserContext);
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 2;
@@ -23,34 +23,7 @@ const ShowScore = () => {
     return users.slice(startIndex, endIndex);
   }, [currentPage, users, itemsPerPage]);
 
-  const usersWithTotalScore = currentData.map((user) => {
-    const { name: userName, quizResults = [] } = user;
-
-    const totalScore = quizResults.reduce((sum, quiz) => sum + quiz.score, 0);
-
-    const numberOfPlays = user.quizResults?.length;
-
-    const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      hour12: true,
-    };
-
-    const date = quizResults.map((result) =>
-      new Date(result.date).toLocaleString("en-GB", options)
-    );
-
-    const timeTaken = quizResults.map((result) => result.timeTaken);
-    const score = quizResults.map((result) => result.score);
-
-    return { userName, totalScore, numberOfPlays, timeTaken, score, date };
-  });
-
-  console.log(usersWithTotalScore, "Total score");
+  const usersWithTotalScore = totalScore(currentData);
 
   return (
     <div className="container">

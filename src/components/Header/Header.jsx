@@ -95,16 +95,6 @@ const Header = () => {
 
               {user?.role !== "admin" && (
                 <>
-                 {/* <li>
-                    <NavLink
-                      to="quizzes"
-                      className={({ isActive }) =>
-                        isActive ? "nav-link active" : "nav-link"
-                      }
-                    >
-                      Quizzes
-                    </NavLink>
-                  </li> */}
                   <li>
                     <NavLink
                       to="score"

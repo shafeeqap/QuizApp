@@ -5,7 +5,6 @@ import { useContext, useEffect } from "react";
 import UserContext from "../../../context/userContext";
 import "./UserLogin.css";
 import Loading from "../../../components/Loading/Loading";
-import { toast } from "react-toastify";
 import Button from "../../../components/Button/Button";
 
 const initialValues = {
@@ -29,17 +28,12 @@ const UserLogin = () => {
 
     try {
       const user = await authUser(values);
-console.log(user);
 
       if (user) {
         navigate("/");
-      } else {
-        toast.error("No user data found");
-        navigate("/register");
       }
     } catch (error) {
       console.error("Error during login:", error);
-      toast.error('Error during login');
     }
     setIsLoading(false);
   };
@@ -88,7 +82,7 @@ console.log(user);
                     </div>
                     <div>
                       <Button
-                        type={'submit'}
+                        type={"submit"}
                         // disabled={isLoading}
                         variant="primary"
                       >

@@ -22,6 +22,8 @@ import Layout from "../components/Layout/Layout";
 import DailyQuizzes from "../components/Quizzes/DailyQuizzes/DailyQuizzes";
 import ShowRegularQuizzes from "../pages/admin/Quiz/ShowQuiz/RegularQuizzes/ShowRegularQuizzes";
 import ShowDailyQuizzes from "../pages/admin/Quiz/ShowQuiz/DailyQuizzes/ShowDailyQuizzes";
+import BlockedPage from "../pages/BlockedPage/BlockedPage";
+import BlockedUserRoute from "../components/CheckUserStatus/BlockedUserRoute ";
 
 // Layout with Header and Footer
 const LayoutHeaderFooter = () => {
@@ -42,18 +44,16 @@ const AppRouter = () => {
         <Route path="/login" element={<UserLogin />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/register" element={<RegisterUser />} />
+        <Route path="/blocked" element={<BlockedPage />} />
 
-        {/* Routes with Layout */}
         <Route element={<LayoutHeaderFooter />}>
-          <Route path="/" element={<Home />} />
+          <Route element={<BlockedUserRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/quizzes" element={<Quizzes />} />
+            <Route path="/daily-quizzes" element={<DailyQuizzes />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
 
-          {/*show regular quizzes on user side */}
-          <Route path="/quizzes" element={<Quizzes />} />
-
-          {/* show daily quizzes on user side */}
-          <Route path="/daily-quizzes" element={<DailyQuizzes />} />
-
-          <Route path="/profile" element={<Profile />} />
           <Route
             path="/dashboard"
             element={

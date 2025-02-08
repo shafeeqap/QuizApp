@@ -3,3 +3,17 @@ To host your site with Firebase Hosting, you need the Firebase CLI (a command li
 Run the following npm command to install the CLI or update to the latest CLI version.
 
 npm install -g firebase-tools
+
+----------------------------------------------------------------------------------------------------------
+
+What Are Firebase Cloud Functions?
+----------------------------------
+Firebase Cloud Functions are a serverless solution provided by Firebase. 
+Even though they are "server-side" code, you don’t need to manage your own server—Firebase hosts these functions for you. 
+This is the recommended approach for any sensitive operations in your app.
+
+Firebase Admin SDK:
+---------------------
+The Firebase Admin SDK is designed to run in trusted environments (like Cloud Functions) 
+and is not available for client-side use. This SDK allows you to securely perform operations such as deleteUser or updateUser 
+without exposing your app to security risks.

@@ -1,7 +1,7 @@
 import { createContext, useState, useCallback } from "react";
 import { db } from "../utils/config/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import debounce from "lodash.debounce"; // Install using npm install lodash.debounce
+import debounce from "lodash.debounce"; 
 
 const SearchContext = createContext();
 

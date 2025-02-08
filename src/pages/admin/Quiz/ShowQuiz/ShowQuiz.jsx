@@ -15,7 +15,7 @@ import NoData from "../../../../components/NoDataFound/NoDataFound";
 import Tooltipp from "../../../../components/Tooltipp/Tooltipp";
 import QuizzesContext from "../../../../context/quizzesContext";
 
-const ShowQuiz = ({ quizTitile, quizzes, setQuizzes }) => {
+const ShowQuiz = () => {
   const { isLoading, fetchedQuizzes, setFetchedQuizzes } =
     useContext(QuizzesContext);
   const [currentPage, setCurrentPage] = useState(1);

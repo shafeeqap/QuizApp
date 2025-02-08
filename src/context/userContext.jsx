@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../utils/config/firebase";
 import { signOut } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { fetchUsers } from "../utils/fetchUsers/fetchUsers";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
@@ -15,6 +16,28 @@ export const UserProvider = ({ children }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
+
+  // --------- Check if user is blocked (real-time updates)
+  useEffect(() => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+
+      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const updatedUser = docSnap.data();
+
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+
+          if (updatedUser.isBlocked) {
+            toast.error("Your account is blocked.");
+            localStorage.removeItem("user");
+          }
+        }
+      });
+
+      return () => unsubscribe();
+    }
+  }, [user]);
 
   // ----------------- Fetch users list from Firebase //
   const loadUsers = async () => {
@@ -64,10 +87,15 @@ export const UserProvider = ({ children }) => {
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
-
-        setUser(userData);
-        return userData;
+        if (!userData.isBlocked) {
+          setUser(userData);
+          return userData;
+        } else {
+          toast.error("User is blocked.");
+          return null;
+        }
       } else {
+        toast.error("User data not found. Please check your account.");
         console.error("No document found for UID:", user.uid);
         throw new Error("User data not found. Please check your account.");
       }
@@ -99,6 +127,7 @@ export const UserProvider = ({ children }) => {
         authUser,
         setIsLoading,
         logout,
+        loadUsers,
       }}
     >
       {children}
