@@ -20,8 +20,6 @@ const ShowUser = () => {
   const [actionType, setActionType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(users, "Users");
-
   const computedScores = quizDetails(users);
 
   // Merge the Computed Total Score with Original User Data //
@@ -50,7 +48,7 @@ const ShowUser = () => {
       await handleUserBlockUnblock(selectedUser, user?.isBlocked);
     }
     setIsModalOpen(false);
-    loadUsers()
+    loadUsers();
   };
 
   const handleUserDelete = async (userId) => {
@@ -71,7 +69,7 @@ const ShowUser = () => {
       await updateDoc(doc(db, "users", userId), {
         isBlocked: !isBlocked,
       });
-      toast.success(`User ${isBlocked ? 'Unblocked' : 'Blocked' }`);
+      toast.success(`User ${isBlocked ? "Unblocked" : "Blocked"}`);
     } catch (error) {
       console.error("Error updating user status:", error);
     }

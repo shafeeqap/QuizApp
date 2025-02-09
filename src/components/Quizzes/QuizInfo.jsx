@@ -4,14 +4,24 @@ import { IoMdDownload } from "react-icons/io";
 import Tooltipp from "../Tooltipp/Tooltipp";
 import { quizDetails } from "../../utils/helper/user/quizDetails";
 import downloadPdf from "../../utils/downloadPdf/downloadPdf";
+import { useContext } from "react";
+import UserContext from "../../context/userContext";
 
 const QuizInfo = ({
   totalQuestions,
   currentQuestionIndex,
   isCompleted,
   quizzes,
+  // user
 }) => {
-  const usersWithQuizDetails = quizDetails();
+  const { user } = useContext(UserContext);
+  // console.log(user, 'User');
+  // console.log("Type of users:", typeof user);
+  const usersWithQuizDetails = quizDetails([user]);
+  // console.log("Type of Quiz Details:", typeof usersWithQuizDetails);
+
+  // console.log(usersWithQuizDetails, 'usersWithQuizDetails');
+  
 
   const handleDownloadPdf = () => {
     console.log("Downloading PDF...");

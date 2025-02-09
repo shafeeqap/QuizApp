@@ -45,6 +45,7 @@ const Quizzes = () => {
   return (
     <div className="quizzes-container">
       <QuizInfo
+
         totalQuestions={isRegularQuizzes.length}
         currentQuestionIndex={currentQuestionIndex}
         isCompleted={isCompleted}

@@ -17,14 +17,17 @@ export const UserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
 
-  // --------- Check if user is blocked (real-time updates)
+  // Real‑time update listener (only subscribe if user exists and is not logging out)
   useEffect(() => {
-    if (user) {
+    let unsubscribe;
+    if (user && user.uid) {
       const userRef = doc(db, "users", user.uid);
 
-      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      unsubscribe = onSnapshot(userRef, (docSnap) => {
         if (docSnap.exists()) {
           const updatedUser = docSnap.data();
+          console.log("Real-time update received:", updatedUser); 
+          setUser(updatedUser);
 
           localStorage.setItem("user", JSON.stringify(updatedUser));
 
@@ -35,9 +38,13 @@ export const UserProvider = ({ children }) => {
         }
       });
 
-      return () => unsubscribe();
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
     }
-  }, [user]);
+  }, [user?.uid]);
 
   // ----------------- Fetch users list from Firebase //
   const loadUsers = async () => {

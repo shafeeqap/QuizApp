@@ -1,5 +1,6 @@
 export const quizDetails = (users = []) => {
-  const filteredUsers = users.filter((user) => user.role !== "admin");
+
+  const filteredUsers = users.filter((user) => user && user.role !== "admin");
 
   const usersWithQuizDetails = filteredUsers.map((user) => {
     const { name: userName, email, quizResults = [] } = user;
@@ -8,13 +9,15 @@ export const quizDetails = (users = []) => {
 
     const numberOfPlays = user.quizResults?.length;
 
-    const result = quizResults.flatMap((quiz) => {
-      const { quizType, quizDetails = [] } = quiz;
+    const result = quizResults.map((quiz) => {
+      const { quizType, score, timeTaken, quizDetails } = quiz;
 
-      return quizDetails.map((item) => {
-        const { question, selectedValue, correctAnswer, isCorrect } = item;
-        return { question, selectedValue, correctAnswer, isCorrect, quizType };
-      });
+      // return quizDetails.map((item) => {
+      //   const { question, selectedValue, correctAnswer, isCorrect } = item;
+      //   return { question, selectedValue, correctAnswer, isCorrect, quizType };
+      // });
+
+      return {quizType, score, timeTaken, quizDetails}
     });
 
     const options = {
@@ -45,7 +48,7 @@ export const quizDetails = (users = []) => {
       result,
     };
   });
-  console.log(usersWithQuizDetails, "usersWithTotalScore");
+  // console.log(usersWithQuizDetails, "usersWithTotalScore");
 
   return usersWithQuizDetails;
 };
