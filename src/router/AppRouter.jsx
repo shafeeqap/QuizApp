@@ -24,6 +24,8 @@ import ShowRegularQuizzes from "../pages/admin/Quiz/ShowQuiz/RegularQuizzes/Show
 import ShowDailyQuizzes from "../pages/admin/Quiz/ShowQuiz/DailyQuizzes/ShowDailyQuizzes";
 import BlockedPage from "../pages/BlockedPage/BlockedPage";
 import BlockedUserRoute from "../components/CheckUserStatus/BlockedUserRoute ";
+import Result from "../components/Test/Result";
+import SocialShare from "../components/SocialShare/SocialShare";
 
 // Layout with Header and Footer
 const LayoutHeaderFooter = () => {
@@ -45,6 +47,9 @@ const AppRouter = () => {
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/blocked" element={<BlockedPage />} />
+
+        <Route path="/result" element={<Result />} />
+        <Route path="/social-share" element={<SocialShare />} />
 
         <Route element={<LayoutHeaderFooter />}>
           <Route element={<BlockedUserRoute />}>

@@ -17,11 +17,22 @@ table {
   border-collapse: collapse;
   width: min-content;
 }
-.table-container{
-  /* background-color: red; */
+.user-status{
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
 }
-
-
+.status-blocked{
+  background-color: red;
+}
+.status-active{
+  background-color: green;
+}
+.user-action{
+  display: flex;
+  justify-content: space-around;
+}
 
 tr:nth-child(even) {
   background-color: #d4d0d0

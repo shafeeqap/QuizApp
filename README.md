@@ -22,8 +22,14 @@ Dependencies
 10. react-loader-spinner
 11. react-router-dom
 12. react-time-picker
-13. react-toastify
+13. react-datepicker
 14. yup
+15. jspdf
+16. react-share
+17. firebase-admin
+18. react-toastify
+19. firebase/storage --> (to store pdfs in Firebase Storage.)
+20. 
 
 # If you face any problems during the programme run. 
   You should remove 'node_modules' and 'package-lock.json', then reinstall. 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { IoShareSocialOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
@@ -11,7 +11,16 @@ import UserContext from "../../context/userContext";
 const QuizCompleted = ({ totalQuestions, handleReload }) => {
   const { score, timeTaken } = useContext(QuizzesContext);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate()
 
+  const handleShare = async()=>{
+    try {
+      navigate('/social-share')
+      console.log('Content shared successfully!');
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  }
   
   return (
     <div className="reload-container">
@@ -61,7 +70,7 @@ const QuizCompleted = ({ totalQuestions, handleReload }) => {
               type="button"
               variant="secondary"
               size="small"
-              // onClick={"handleReload"}
+              onClick={handleShare}
             >
               <IoShareSocialOutline size={20} />
             </Button>

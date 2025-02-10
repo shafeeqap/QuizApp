@@ -4,6 +4,7 @@ export const quizDetails = (users = []) => {
 
   const usersWithQuizDetails = filteredUsers.map((user) => {
     const { name: userName, email, quizResults = [] } = user;
+    const username=userName.toUpperCase()
 
     const totalScore = quizResults.reduce((sum, quiz) => sum + quiz.score, 0);
 
@@ -11,11 +12,6 @@ export const quizDetails = (users = []) => {
 
     const result = quizResults.map((quiz) => {
       const { quizType, score, timeTaken, quizDetails } = quiz;
-
-      // return quizDetails.map((item) => {
-      //   const { question, selectedValue, correctAnswer, isCorrect } = item;
-      //   return { question, selectedValue, correctAnswer, isCorrect, quizType };
-      // });
 
       return {quizType, score, timeTaken, quizDetails}
     });
@@ -38,7 +34,7 @@ export const quizDetails = (users = []) => {
     const score = quizResults.map((result) => result.score);
 
     return {
-      userName,
+      username,
       email,
       totalScore,
       numberOfPlays,
@@ -48,7 +44,6 @@ export const quizDetails = (users = []) => {
       result,
     };
   });
-  // console.log(usersWithQuizDetails, "usersWithTotalScore");
 
   return usersWithQuizDetails;
 };

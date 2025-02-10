@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ShowUser.css";
 import UserContext from "../../../context/userContext";
 import Loading from "../../../components/Loading/Loading";
@@ -19,12 +19,26 @@ const ShowUser = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [actionType, setActionType] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const computedScores = quizDetails(users);
+  const itemsPerPage = 5;
+  const totalItems = users.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Reset to first page when data changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [users]);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = users.slice(startIndex, endIndex);
+
+  const computedScores = quizDetails(currentData);
 
   // Merge the Computed Total Score with Original User Data //
   const usersWithTotalScore = users.map((user) => {
-    const computed = computedScores.find((item) => item.userName === user.name);
+    const computed = computedScores.find((item) => item.username === user.name);
 
     return { ...user, totalScore: computed?.totalScore || 0 };
   });
@@ -117,15 +131,20 @@ const ShowUser = () => {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
-                    <td>{user.isBlocked ? "Blocked" : "Active"}</td>
+                    <td>
+                      <>
+                        <div
+                          className={`user-status ${
+                            user.isBlocked ? "status-blocked" : "status-active"
+                          }`}
+                        >
+                          {user.isBlocked ? "Blocked" : "Active"}
+                        </div>
+                      </>
+                    </td>
                     <td>{user.totalScore}</td>
                     <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-around",
-                        }}
-                      >
+                      <div className="user-action">
                         <Button
                           variant="danger"
                           size="small"
@@ -154,7 +173,11 @@ const ShowUser = () => {
             <p>No users found</p>
           )}
         </article>
-        {/* <Pagination /> */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </section>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h3>
