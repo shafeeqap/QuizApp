@@ -138,13 +138,13 @@ export const QuizzesProvider = ({ children }) => {
     setTimeTaken(calculatedTimeTaken);
     setScore(updatedScore);
 
-    // saveQuizResult(
-    //   userId,
-    //   updatedScore,
-    //   calculatedTimeTaken,
-    //   updatedQuizDetails,
-    //   quizType
-    // );
+    saveQuizResult(
+      userId,
+      updatedScore,
+      calculatedTimeTaken,
+      updatedQuizDetails,
+      quizType
+    );
 
     console.log("Saving Quiz Result:", {
       userId: userId,

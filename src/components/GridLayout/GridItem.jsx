@@ -21,7 +21,7 @@ const GridItem = ({
         <p className="grid-title">{title}</p>
       </div>
 
-      <div className="content-wrapper">
+      <div className="dashboard-content-wrapper">
         <div className="dashboard-content">
           <RoundDiv backgroundColor={roundDivbgColor}>
             <h3>{value}</h3>

@@ -1,18 +1,7 @@
-import { useEffect, useState } from "react";
-
 import jsPDF from "jspdf";
-import PropTypes from "prop-types";
-import uploadPdfToFirebase from "./uploadPdfToFirebase";
 
-const PdfPreview = ({
-  quizDetails,
-  width = "100%",
-  height = "600px",
-  onPdfPublicUrl,
-}) => {
-  const [pdfUrl, setPdfUrl] = useState("");
 
-  const generatePdfBlob = async () => {
+export const generatePdfBlob = (quizDetails) => {
     // If quizDetails is an array, use the first element.
     const data = Array.isArray(quizDetails) ? quizDetails[0] : quizDetails;
 
@@ -169,44 +158,7 @@ const PdfPreview = ({
 
     // a Blob URL for a local preview.
     const localBlobUrl = URL.createObjectURL(pdfBlob);
-    setPdfUrl(localBlobUrl);
+    // setPdfUrl(localBlobUrl);
 
-    try {
-      // Upload the PDF Blob to your server and get a public URL.
-      const publicUrl = await uploadPdfToFirebase(pdfBlob);
-      onPdfPublicUrl(publicUrl);
-    } catch (error) {
-      console.error("Failed to upload PDF to Firebase:", error);
-    }
-
-    return localBlobUrl;
+    return { localBlobUrl, pdfBlob };
   };
-
-  useEffect(() => {
-    generatePdfBlob();
-
-    return () => {
-      pdfUrl && URL.revokeObjectURL(pdfUrl);
-    };
-  }, [quizDetails, width, height]);
-
-  return (
-    <div>
-      <iframe
-        src={pdfUrl}
-        width={width}
-        height={height}
-        title="PDF Preview"
-        style={{ border: "none" }}
-      />
-    </div>
-  );
-};
-
-PdfPreview.propTypes = {
-  quizDetails: PropTypes.array,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  onPdfPublicUrl: PropTypes.func
-};
-export default PdfPreview;

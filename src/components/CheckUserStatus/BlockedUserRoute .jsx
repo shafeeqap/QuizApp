@@ -1,11 +1,9 @@
-import { useContext} from "react";
+import { useContext } from "react";
 import UserContext from "../../context/userContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 const BlockedUserRoute = () => {
   const { user } = useContext(UserContext);
-
-  console.log(user, "user");
 
   // if (user === undefined || user === null) {
   //   return (

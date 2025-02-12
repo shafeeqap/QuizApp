@@ -2,6 +2,8 @@ import {
   FacebookShareButton,
   WhatsappShareButton,
   TelegramShareButton,
+  EmailShareButton,
+  EmailIcon,
   FacebookIcon,
   WhatsappIcon,
   TelegramIcon,
@@ -10,38 +12,53 @@ import insta_icon from "../../assets/images/instagram icon.png";
 import "./SocialShare.css";
 import share_social_media from "../../assets/images/share_social_media.png";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import UserContext from "../../context/userContext";
 
-const SocialShare = ({pdfUrl}) => {
-    console.log(pdfUrl, 'pdfUrl');
+const SocialShare = () => {
+  const { pdfPublicUrl } = useContext(UserContext);
 
-    console.log(typeof pdfUrl, 'Type');
+  console.log(pdfPublicUrl, "Pdf Public Url");
 
-    const title = "Check out my quiz results!";
-        
+  const shareUrl = pdfPublicUrl || "https://yourwebsite.com/your-page";
+  const title = "Check out my quiz results!";
+
   return (
     <div className="share-container">
       <div className="content-wrapper">
         <div className="image-wrapper">
-          <img src={share_social_media} alt="Share on Social Media" className="bg-img" />
+          <img
+            src={share_social_media}
+            alt="Share on Social Media"
+            className="bg-img"
+          />
         </div>
         <div className="share-btn-icons-container">
           <p>share on social media</p>
           <div className="icons-wrapper">
             <FacebookShareButton
-              url={pdfUrl}
+              url={shareUrl}
               quote={title}
               hashtag="#AwesomeWebsite"
             >
               <FacebookIcon size={40} round />
             </FacebookShareButton>
 
-            <TelegramShareButton url={pdfUrl} title={title}>
+            <TelegramShareButton url={shareUrl} title={title}>
               <TelegramIcon size={40} round />
             </TelegramShareButton>
 
-            <WhatsappShareButton url={pdfUrl} title={title}>
+            <WhatsappShareButton url={shareUrl} title={title}>
               <WhatsappIcon size={40} round />
             </WhatsappShareButton>
+
+            <EmailShareButton
+              url={shareUrl}
+              subject={title}
+              body={`I thought you might like this: ${shareUrl}`}
+            >
+              <EmailIcon size={40} round />
+            </EmailShareButton>
 
             <div title={title}>
               <a
@@ -59,7 +76,7 @@ const SocialShare = ({pdfUrl}) => {
   );
 };
 
-SocialShare.propTypes={
-    pdfUrl: PropTypes.string
-}
+SocialShare.propTypes = {
+  pdfUrl: PropTypes.string,
+};
 export default SocialShare;

@@ -1,4 +1,4 @@
-export const checkQuizAvailability = (quizzes) => {
+export const checkQuizAvailability = (quizzes, user) => {
   if (!quizzes || !Array.isArray(quizzes) || quizzes.length === 0) {
     console.error("Invalid quiz data:", quizzes);
     return { isAvailable: false, message: "No quizzes found." };
@@ -17,6 +17,25 @@ export const checkQuizAvailability = (quizzes) => {
   const quizStartTime = new Date(quiz.startTime.seconds * 1000);
   const quizEndTime = new Date(quiz.endTime.seconds * 1000);
   const now = new Date();
+
+  const dailyQuizzes = user.quizResults.filter(
+    (quiz) => quiz.quizType === "DailyQuiz"
+  );
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const quizTakenToday = dailyQuizzes.find((quiz) => {
+    const quizDate = quiz.date.split("T")[0];
+
+    return quizDate === today;
+  });
+
+  if (quizTakenToday) {
+    return {
+      isAvailable: false,
+      message: "Daily quizzes are not allowed more than one per day.",
+    };
+  }
 
   if (now < quizStartTime) {
     return {

@@ -38,7 +38,7 @@ const ShowUser = () => {
 
   // Merge the Computed Total Score with Original User Data //
   const usersWithTotalScore = users.map((user) => {
-    const computed = computedScores.find((item) => item.username === user.name);
+    const computed = computedScores.find((item) => item.userName === user.name);
 
     return { ...user, totalScore: computed?.totalScore || 0 };
   });
@@ -128,7 +128,7 @@ const ShowUser = () => {
                 {displayUsers.map((user, index) => (
                   <tr key={user.id}>
                     <td>{index + 1}</td>
-                    <td>{user.name}</td>
+                    <td style={{ textTransform: "capitalize" }}>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                     <td>
@@ -147,14 +147,14 @@ const ShowUser = () => {
                       <div className="user-action">
                         <Button
                           variant="danger"
-                          size="small"
+                          // size="small"
                           onClick={() => handleConfirmation(user.id, "delete")}
                         >
                           <MdDeleteForever size={20} />
                         </Button>
                         <Button
                           variant="secondary"
-                          size="small"
+                          // size="small"
                           onClick={() => handleConfirmation(user.id, "block")}
                         >
                           {user.isBlocked ? (

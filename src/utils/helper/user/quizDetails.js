@@ -1,19 +1,17 @@
 export const quizDetails = (users = []) => {
-
   const filteredUsers = users.filter((user) => user && user.role !== "admin");
 
   const usersWithQuizDetails = filteredUsers.map((user) => {
     const { name: userName, email, quizResults = [] } = user;
-    const username=userName.toUpperCase()
 
     const totalScore = quizResults.reduce((sum, quiz) => sum + quiz.score, 0);
 
     const numberOfPlays = user.quizResults?.length;
 
     const result = quizResults.map((quiz) => {
-      const { quizType, score, timeTaken, quizDetails } = quiz;
+      const { quizType, timeTaken, quizDetails } = quiz;
 
-      return {quizType, score, timeTaken, quizDetails}
+      return { quizType, timeTaken, quizDetails };
     });
 
     const options = {
@@ -34,7 +32,7 @@ export const quizDetails = (users = []) => {
     const score = quizResults.map((result) => result.score);
 
     return {
-      username,
+      userName,
       email,
       totalScore,
       numberOfPlays,

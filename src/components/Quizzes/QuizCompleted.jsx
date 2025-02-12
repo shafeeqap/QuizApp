@@ -1,30 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import { IoShareSocialOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
-import Confetti from "react-confetti";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import QuizzesContext from "../../context/quizzesContext";
 import UserContext from "../../context/userContext";
+import Modal from "../Modal/Modal";
+import SocialShare from "../../pages/SocialShare/SocialShare";
 
-
-const QuizCompleted = ({ totalQuestions, handleReload }) => {
+const QuizCompleted = ({ totalQuestions, handleReload, isDailyQuizzes }) => {
   const { score, timeTaken } = useContext(QuizzesContext);
   const { user } = useContext(UserContext);
-  const navigate = useNavigate()
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleShare = async()=>{
-    try {
-      navigate('/social-share')
-      console.log('Content shared successfully!');
-    } catch (err) {
-      console.error('Error sharing:', err);
-    }
-  }
-  
+  const handleShareModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="reload-container">
-      <div>
+      {/* <div>
         <Confetti
           width={500}
           height={500}
@@ -34,7 +29,7 @@ const QuizCompleted = ({ totalQuestions, handleReload }) => {
             transform: "translate(-50%, -50%)",
           }}
         />
-      </div>
+      </div> */}
       <h4>You completed the quiz!</h4>
       <p>
         Your total score is: {score} / {totalQuestions}
@@ -58,25 +53,30 @@ const QuizCompleted = ({ totalQuestions, handleReload }) => {
       ) : (
         <>
           <div className="quiz-comp-btn-container">
-            <Button
-              type="button"
-              variant="danger"
-              size="small"
-              onClick={handleReload}
-            >
-              Try Again
-            </Button>
+            {!isDailyQuizzes && (
+              <Button
+                type="button"
+                variant="danger"
+                size="small"
+                onClick={handleReload}
+              >
+                Try Again
+              </Button>
+            )}
             <Button
               type="button"
               variant="secondary"
               size="small"
-              onClick={handleShare}
+              onClick={handleShareModalOpen}
             >
               <IoShareSocialOutline size={20} />
             </Button>
           </div>
         </>
       )}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <SocialShare />
+      </Modal>
     </div>
   );
 };
@@ -87,5 +87,6 @@ QuizCompleted.propTypes = {
   timeTaken: PropTypes.number,
   user: PropTypes.object,
   handleReload: PropTypes?.func,
+  isDailyQuizzes: PropTypes.array,
 };
 export default QuizCompleted;

@@ -50,7 +50,9 @@ const useQuizLogic = (quizzes) => {
     const correctAnswer = quizzes[currentQuestionIndex]?.answer;
 
     const isCorrect = selectedOption === correctAnswer;
-    const quizType = quizzes.some((quiz) => quiz.isDailyQuiz === true) ? "DailyQuiz" : "RegularQuiz";
+    const quizType = quizzes.some((quiz) => quiz.isDailyQuiz === true)
+      ? "DailyQuiz"
+      : "RegularQuiz";
 
     const updatedQuizDetails = [
       ...(quizDetails || []),
@@ -84,7 +86,6 @@ const useQuizLogic = (quizzes) => {
 
     const { updatedQuizDetails, updatedScore, isLastQuestion, quizType } =
       processCurrentQuestion();
-    console.log(updatedQuizDetails, "Quiz Details");
 
     if (isLastQuestion) {
       finalizeQuiz(user.uid, updatedScore, updatedQuizDetails, quizType);

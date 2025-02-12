@@ -55,6 +55,7 @@ const DailyQuizzes = () => {
         <QuizCompleted
           totalQuestions={isDailyQuizzes.length}
           handleReload={handleReload}
+          isDailyQuizzes={isDailyQuizzes}
         />
       ) : (
         <>

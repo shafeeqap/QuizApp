@@ -2,6 +2,11 @@ import { Timer } from "../Timer";
 import PropTypes from "prop-types";
 import { IoMdDownload } from "react-icons/io";
 import Tooltipp from "../Tooltipp/Tooltipp";
+import uploadPdfToFirebase from "../../utils/generatePdf/uploadPdfToFirebase";
+import UserContext from "../../context/userContext";
+import { useContext } from "react";
+import { quizDetails } from "../../utils/helper/user/quizDetails";
+import { generatePdfBlob } from "../../utils/generatePdf/generatePdfBlob";
 
 const QuizInfo = ({
   totalQuestions,
@@ -9,10 +14,26 @@ const QuizInfo = ({
   isCompleted,
   quizzes,
 }) => {
+  const { user, setPdfPublicUrl } = useContext(UserContext);
+  const usersWithQuizDetails = quizDetails([user]);
 
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
     console.log("Downloading PDF...");
-    window.open("/result", "_blank");
+    window.open("/download-pdf", "_blank");
+
+    const { pdfBlob } = generatePdfBlob(usersWithQuizDetails);
+    
+    console.log(pdfBlob, 'Pdf Blob');
+
+    try {
+      // Upload the PDF Blob to your server and get a public URL.
+      const publicUrl = await uploadPdfToFirebase(pdfBlob);
+      console.log(publicUrl, "Public URL...");
+
+      setPdfPublicUrl(publicUrl);
+    } catch (error) {
+      console.error("Failed to upload PDF to Firebase:", error);
+    }
   };
 
   return (

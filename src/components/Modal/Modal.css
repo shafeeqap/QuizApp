@@ -15,7 +15,7 @@
     padding: 20px;
     border-radius: 8px;
     position: relative;
-    width: 80%;
+    /* width: 50%; */
     max-width: 500px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -45,4 +45,19 @@
     display: flex;
     justify-content: end;
     align-items: center;
+  }
+
+  
+  /* Tablet */
+  @media (min-width: 577px) and (max-width: 768px){
+    .modal-content{
+      width: 50%;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 769px){
+    .modal-content{
+      width: 50%;
+    }
   }

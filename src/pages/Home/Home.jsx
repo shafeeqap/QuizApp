@@ -9,9 +9,12 @@ import { checkQuizAvailability } from "../../utils/validation/checkQuizAvailabil
 import Button from "../../components/Button/Button";
 import Loading from "../../components/Loading/Loading";
 import { toast } from "react-toastify";
+import UserContext from "../../context/userContext";
 
 const Home = () => {
-  const { isLoading, isDailyQuizzes, setIsLoading, quizEndTime } = useContext(QuizzesContext);
+  const { isLoading, isDailyQuizzes, setIsLoading } =
+    useContext(QuizzesContext);
+  const { user } = useContext(UserContext);
   const [regularQuizStarted, setRegularQuizStarted] = useState(false);
   const [dailyQuizStarted, setDailyQuizStarted] = useState(false);
 
@@ -47,7 +50,10 @@ const Home = () => {
       return;
     }
 
-    const { isAvailable, message } = checkQuizAvailability(isDailyQuizzes);
+    const { isAvailable, message } = checkQuizAvailability(
+      isDailyQuizzes,
+      user
+    );
     toast.warning(message);
 
     if (isAvailable) {

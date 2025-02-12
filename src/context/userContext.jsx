@@ -16,6 +16,8 @@ export const UserProvider = ({ children }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
+  const [pdfPublicUrl, setPdfPublicUrl] = useState("");
+  const [pdfUrl, setPdfUrl] = useState("");
 
   // Real‑time update listener (only subscribe if user exists and is not logging out)
   useEffect(() => {
@@ -26,7 +28,7 @@ export const UserProvider = ({ children }) => {
       unsubscribe = onSnapshot(userRef, (docSnap) => {
         if (docSnap.exists()) {
           const updatedUser = docSnap.data();
-          console.log("Real-time update received:", updatedUser); 
+          console.log("Real-time update received:", updatedUser);
           setUser(updatedUser);
 
           localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -130,11 +132,15 @@ export const UserProvider = ({ children }) => {
         user,
         users,
         isLoading,
+        pdfPublicUrl,
+        pdfUrl,
         setUser,
         authUser,
         setIsLoading,
         logout,
         loadUsers,
+        setPdfPublicUrl,
+        setPdfUrl,
       }}
     >
       {children}
