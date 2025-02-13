@@ -42,6 +42,7 @@ export const quizDetails = (users = []) => {
       result,
     };
   });
+console.log(usersWithQuizDetails, 'Users Quiz Details');
 
   return usersWithQuizDetails;
 };

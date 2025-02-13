@@ -2,10 +2,11 @@ import "../../assets/styles/header.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import Drawer from "../Drawer/Drawer";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ToggleMenu from "../ToggleMenu/ToggleMenu";
 import UserContext from "../../context/userContext";
 import SearchContext from "../../context/searchContext";
+import Button from "../Button/Button"
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -14,6 +15,7 @@ const Header = () => {
 
   const { user } = useContext(UserContext);
   const { searchTerm, handleInputChange } = useContext(SearchContext);
+  const navigate = useNavigate()
 
   const toggleMenu = () => {
     setIsToggleMenuOpen((prev) => !prev);
@@ -135,8 +137,10 @@ const Header = () => {
                 {user.name[0] || "G"}
               </div>
             ) : (
-              <div className="menu-btn" onClick={toggleMenu}>
-                G
+              <div >
+                <div>
+                  <Button onClick={()=>navigate('/login')}>Login</Button>
+                </div>
               </div>
             )}
           </div>

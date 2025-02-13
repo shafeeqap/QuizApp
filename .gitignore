@@ -26,6 +26,4 @@ dist-ssr
 .env
 serviceAccountKey.json
 setAdmin.cjs
-.firebaserc
-firebase.json
 Note.txt

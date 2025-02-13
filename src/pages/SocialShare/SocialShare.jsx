@@ -55,7 +55,8 @@ const SocialShare = () => {
             <EmailShareButton
               url={shareUrl}
               subject={title}
-              body={`I thought you might like this: ${shareUrl}`}
+              // body={`I thought you might like this: ${shareUrl}`}
+              body={`I thought you might like this: ${encodeURIComponent(shareUrl)}`}
             >
               <EmailIcon size={40} round />
             </EmailShareButton>
