@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Outlet,
@@ -55,7 +55,7 @@ const AppRouter = () => {
           <Route element={<BlockedUserRoute />}>
             <Route path="/" element={<Home />} />
               
-              {/* gitHub deply */}
+              {/* gitHub deploy */}
             <Route path="/QuizApp" element={<Home />} />
 
             <Route path="/quizzes" element={<Quizzes />} />
