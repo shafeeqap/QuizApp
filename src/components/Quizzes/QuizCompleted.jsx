@@ -10,7 +10,7 @@ import SocialShare from "../../pages/SocialShare/SocialShare";
 
 const QuizCompleted = ({ totalQuestions, handleReload, isDailyQuizzes }) => {
   const { score, timeTaken } = useContext(QuizzesContext);
-  const { user } = useContext(UserContext);
+  const { user, pdfPublicUrl } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleShareModalOpen = () => {
@@ -68,6 +68,7 @@ const QuizCompleted = ({ totalQuestions, handleReload, isDailyQuizzes }) => {
               variant="secondary"
               size="small"
               onClick={handleShareModalOpen}
+              isDisabled={!pdfPublicUrl}
             >
               <IoShareSocialOutline size={20} />
             </Button>

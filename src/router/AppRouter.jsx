@@ -54,6 +54,10 @@ const AppRouter = () => {
         <Route element={<LayoutHeaderFooter />}>
           <Route element={<BlockedUserRoute />}>
             <Route path="/" element={<Home />} />
+              
+              {/* gitHub deply */}
+            <Route path="/QuizApp" element={<Home />} />
+
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/daily-quizzes" element={<DailyQuizzes />} />
             <Route path="/profile" element={<Profile />} />
