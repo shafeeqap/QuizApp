@@ -7,6 +7,7 @@ import ToggleMenu from "../ToggleMenu/ToggleMenu";
 import UserContext from "../../context/userContext";
 import SearchContext from "../../context/searchContext";
 import Button from "../Button/Button"
+import quizioLogo from '../../assets/images/quizioLogo.png'
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -48,6 +49,9 @@ const Header = () => {
                 style={{ fontSize: "25px", cursor: "pointer" }}
                 aria-label="Toggle menu"
               />
+            </div>
+            <div style={{color:"red"}}>
+              <img src={quizioLogo} alt="quizioLogo" width={70} />
             </div>
             <ul className="nav-items">
               <NavLink

@@ -15,9 +15,12 @@ export const SearchProvider = ({ children }) => {
       setSearchResults([]);
       return;
     }
+console.log(trimmedSearch, 'Trimmed');
 
     try {
       const usersCollection = collection(db, "users");
+      console.log(usersCollection, 'usersCollection');
+      
 
       // Prepare queries
       const nameQuery = query(
@@ -78,8 +81,8 @@ export const SearchProvider = ({ children }) => {
     <SearchContext.Provider
       value={{
         searchTerm,
-        setSearchTerm,
         searchResults,
+        setSearchTerm,
         setSearchResults,
         handleInputChange,
       }}
