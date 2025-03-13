@@ -8,6 +8,7 @@ import UserContext from "../../context/userContext";
 import SearchContext from "../../context/searchContext";
 import Button from "../Button/Button"
 import quizioLogo from '../../assets/images/quizioLogo.png'
+import GoogleTranslate from "../GoogleTranslate/GoogleTranslate";
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -135,6 +136,8 @@ const Header = () => {
                 />
               </div>
             )}
+
+            <div><GoogleTranslate /></div>
 
             {user?.name ? (
               <div className="menu-btn" onClick={toggleMenu}>
